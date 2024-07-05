@@ -63,7 +63,7 @@
               }
       '';
       servers.nixd.enable = true;
-      servers.nil_ls.enable = true;
+      servers.nil-ls.enable = true;
       servers.pyright.enable = true;
     };
     navic.enable = true;
@@ -72,7 +72,7 @@
     fidget.enable = true;
     navbuddy.enable = true;
     treesitter-context.enable = true;
-    treesitter-context.extraOptions = { enable = false; };
+    treesitter-context.settings = { enable = false; };
     commentary.enable = true;
     committia.enable = true;
     nvim-colorizer.enable = true;
