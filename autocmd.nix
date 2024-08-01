@@ -22,7 +22,11 @@
     {
       event = "FileType";
       pattern = "php";
-      command = "setl noexpandtab";
+      command = ''
+        setl noexpandtab
+        setl tabstop=2
+        setl shiftwidth=2
+      '';
       # callback.__raw = ''
       #   function() vim.cmd([[
       #     setl noexpandtab
