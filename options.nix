@@ -1,7 +1,12 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, ... }:
+{
 
-  config.localOpts = { wrap = false; };
-  config.globalOpts = { signcolumn = "3-9"; };
+  config.localOpts = {
+    wrap = false;
+  };
+  config.globalOpts = {
+    signcolumn = "3-9";
+  };
 
   config.files = {
     "ftplugin/yml.lua" = {
@@ -53,5 +58,6 @@
     updatetime = 50;
     colorcolumn = "80";
     timeout = false;
+    winbar = "%f";
   };
 }
