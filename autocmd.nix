@@ -22,13 +22,14 @@
     {
       event = "FileType";
       pattern = "php";
-      callback.__raw = ''
-        function() vim.cmd([[
-          setl noexpandtab
-          setl ts=2
-          setl sw=2
-        ]] end
-      '';
+      command = "setl noexpandtab";
+      # callback.__raw = ''
+      #   function() vim.cmd([[
+      #     setl noexpandtab
+      #     setl ts=2
+      #     setl sw=2
+      #   ]] end
+      # '';
     }
   ];
 
