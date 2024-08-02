@@ -5,7 +5,13 @@
 ## https://github.com/rebelot/heirline.nvim
 # https://en.wikipedia.org/wiki/Ada_(programming_language)
 # https://github.com/jmbuhr/otter.nvim
-{ pkgs, config, helpers, ... }: {
+{
+  pkgs,
+  config,
+  helpers,
+  ...
+}:
+{
   config.plugins = {
     # https://github.com/sidebar-nvim/sidebar.nvim
     # sidebar-nvim.enable = true;
@@ -17,13 +23,9 @@
         completion.autocomplete = false;
         sources = [
           { name = "nvim_lsp"; }
-          {
-            name = "buffer";
-          }
+          { name = "buffer"; }
           # { name = "copilot"; }
-          {
-            name = "async_path";
-          }
+          { name = "async_path"; }
           # { name = "fish"; }
           # { name = "spell"; }
           # { name = "cmdline"; }
@@ -72,7 +74,9 @@
     fidget.enable = true;
     navbuddy.enable = true;
     treesitter-context.enable = true;
-    treesitter-context.settings = { enable = false; };
+    treesitter-context.settings = {
+      enable = false;
+    };
     commentary.enable = true;
     committia.enable = true;
     nvim-colorizer.enable = true;
@@ -80,17 +84,52 @@
     conform-nvim.formatOnSave = null;
     conform-nvim.notifyOnError = true;
     conform-nvim.formattersByFt = {
-      html = [[ "prettierd" "prettier" ]];
-      css = [[ "prettierd" "prettier" ]];
-      javascript = [[ "prettierd" "prettier" ]];
-      javascriptreact = [[ "prettierd" "prettier" ]];
-      typescript = [[ "prettierd" "prettier" ]];
-      typescriptreact = [[ "prettierd" "prettier" ]];
+      html = [
+        [
+          "prettierd"
+          "prettier"
+        ]
+      ];
+      css = [
+        [
+          "prettierd"
+          "prettier"
+        ]
+      ];
+      javascript = [
+        [
+          "prettierd"
+          "prettier"
+        ]
+      ];
+      javascriptreact = [
+        [
+          "prettierd"
+          "prettier"
+        ]
+      ];
+      typescript = [
+        [
+          "prettierd"
+          "prettier"
+        ]
+      ];
+      typescriptreact = [
+        [
+          "prettierd"
+          "prettier"
+        ]
+      ];
       java = [ "google-java-format" ];
       python = [ "black" ];
       lua = [ "stylua" ];
       nix = [ "nixfmt" ];
-      markdown = [[ "prettierd" "prettier" ]];
+      markdown = [
+        [
+          "prettierd"
+          "prettier"
+        ]
+      ];
       rust = [ "rustfmt" ];
     };
     treesitter.enable = true;
@@ -106,14 +145,19 @@
       alwaysDivideMiddle = false;
       iconsEnabled = false;
       ignoreFocus = [ "txt" ];
-      extensions = [ "oil" "man" ];
-      sections.lualine_a = [{
-        name = "filename";
-        extraConfig = {
-          file_status = false;
-          path = 2;
-        };
-      }];
+      extensions = [
+        "oil"
+        "man"
+      ];
+      sections.lualine_a = [
+        {
+          name = "filename";
+          extraConfig = {
+            file_status = false;
+            path = 2;
+          };
+        }
+      ];
       # - `branch` (git branch)
       # - `buffers` (shows currently available buffers)
       # - `diagnostics` (diagnostics count from your preferred source)
@@ -137,7 +181,6 @@
       sections.lualine_y = [ "" ];
       sections.lualine_z = [ "location" ];
     };
-    harpoon.enable = true;
     telescope.enable = true;
     oil.enable = true;
     gitsigns.enable = true;
