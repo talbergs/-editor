@@ -37,7 +37,7 @@ in
 {
 
   config.highlight = {
-    ExtraWhitespace.fg = colors.macchiato;
+    ExtraWhitespace2.fg = colors.macchiato;
   };
   config.colorscheme = "peachpuff";
   config.match = {
