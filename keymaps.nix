@@ -257,10 +257,5 @@
       mode = [ "i" ];
     }
 
-    {
-      key = "<esc>";
-      action = "<C-\><C-n>";
-      mode = [ "t" ];
-    }
   ];
 }
