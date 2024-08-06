@@ -20,7 +20,7 @@
       autoEnableSources = true;
       settings = {
         # completion.autocomplete = [ "some smart" "lua code" ];
-        completion.autocomplete = false;
+        # completion.autocomplete = false;
         sources = [
           { name = "nvim_lsp"; }
           { name = "buffer"; }

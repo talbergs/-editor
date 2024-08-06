@@ -1,4 +1,5 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, ... }:
+{
   config.globals.mapleader = " ";
   config.plugins.lsp.keymaps = pkgs.lib.mkIf config.plugins.lsp.enable {
     lspBuf = {
@@ -14,19 +15,18 @@
     };
   };
 
-  config.plugins.cmp.settings.mapping =
-    pkgs.lib.mkIf config.plugins.cmp.enable {
-      # Explicitly triggers All sources complete menu.
-      # When menu visible, accepts first suggestion.
-      "<c-w>" = "cmp.mapping.complete()";
-      "<c-q>" = "cmp.mapping.close()";
-      "<c-d>" = "cmp.mapping.scroll_docs(4)";
-      "<c-u>" = "cmp.mapping.scroll_docs(-4)";
-      "<c-p>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
-      "<c-n>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
-      # TODO: make completion sources a runtime config
-      # TODO: explicit completion sources keyseq and source pumenu
-    };
+  config.plugins.cmp.settings.mapping = pkgs.lib.mkIf config.plugins.cmp.enable {
+    # Explicitly triggers All sources complete menu.
+    # When menu visible, accepts first suggestion.
+    "<c-w>" = "cmp.mapping.complete()";
+    "<c-q>" = "cmp.mapping.close()";
+    "<c-d>" = "cmp.mapping.scroll_docs(4)";
+    "<c-u>" = "cmp.mapping.scroll_docs(-4)";
+    "<c-p>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
+    "<c-n>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
+    # TODO: make completion sources a runtime config
+    # TODO: explicit completion sources keyseq and source pumenu
+  };
 
   config.keymaps = [
     {
@@ -56,6 +56,12 @@
     {
       key = "<leader>b";
       action = ":Telescope buffers<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>F";
+      action = ":lua require'telescope.builtin'.grep_string()<cr>";
       mode = [ "n" ];
     }
 
@@ -110,13 +116,19 @@
     {
       key = "<c-k>";
       action = "10k";
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
     }
 
     {
       key = "<c-j>";
       action = "10j";
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
     }
 
     {
