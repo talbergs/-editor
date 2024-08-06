@@ -3,6 +3,7 @@
 let
 
   colors = {
+    macchiato = "#ed8796";
     rosewater = "#eb7a73";
     flamingo = "#eb7a73";
     red = "#eb7a73";
@@ -32,10 +33,14 @@ let
     crust = "#1f2223";
   };
 
-in {
+in
+{
 
-  config.highlight = { MacchiatoRed.fg = "#ed8796"; };
-
+  config.highlight = {
+    ExtraWhitespace.fg = colors.macchiato;
+  };
   config.colorscheme = "peachpuff";
-  config.match = { ExtraWhitespace = "\\s\\+$"; };
+  config.match = {
+    ExtraWhitespace = "\\s\\+$";
+  };
 }
