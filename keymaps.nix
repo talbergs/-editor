@@ -256,5 +256,11 @@
       action = "<c-g>u<esc>[s1z=`]a<c-g>u";
       mode = [ "i" ];
     }
+
+    {
+      key = "<esc>";
+      action = "<C-\><C-n>";
+      mode = [ "t" ];
+    }
   ];
 }
