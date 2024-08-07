@@ -30,6 +30,7 @@
   };
 
   config.opts = {
+    sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize";
     number = true;
 
     tabstop = 4;
