@@ -14,57 +14,54 @@
 {
   config.extraPlugins = with pkgs.vimPlugins; [ tabby-nvim ];
   config.extraConfigLua = ''
-        require('tabby').setup()
-    local filename = require('tabby.filename')
-    local util = require('tabby.util')
-
-    local hl_tabline = util.extract_nvim_hl('TabLine')
-    local hl_tabline_sel = util.extract_nvim_hl('TabLineSel')
-
-    ---@type TabbyTablineOpt
-    local tabline = {
-      hl = 'TabLineFill',
-      layout = 'active_wins_at_tail',
-      active_tab = {
-        label = function(tabid)
-          return {
-            '  ' .. vim.api.nvim_tabpage_get_number(tabid) .. ' [' .. table.getn(vim.api.nvim_tabpage_list_wins(tabid)) .. '] ',
-            hl = { fg = hl_tabline.fg, bg = hl_tabline.bg, style = 'bold' },
-          }
-        end,
-        right_sep = { ' ', hl = 'TabLineFill' },
-      },
-      inactive_tab = {
-        label = function(tabid)
-          return {
-            '  ' .. vim.api.nvim_tabpage_get_number(tabid) .. ' [' .. table.getn(vim.api.nvim_tabpage_list_wins(tabid)) .. '] ',
-            hl = { fg = hl_tabline_sel.fg, bg = hl_tabline_sel.bg, style = 'bold' },
-          }
-        end,
-        right_sep = { ' ', hl = 'TabLineFill' },
-      },
-      top_win = {
-        label = function(winid)
-          return {
-            ' > ' .. vim.api.nvim_win_get_buf(winid) .. ': ' .. filename.unique(winid) .. ' ' .. (vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(winid), "modified") and '[+]' or ""),
-            hl = { fg = hl_tabline.fg, bg = hl_tabline.bg, style = 'bold' },
-          }
-        end,
-        left_sep = { ' ', hl = 'TabLineFill' },
-      },
-      win = {
-        label = function(winid)
-          return {
-            ' - ' .. vim.api.nvim_win_get_buf(winid) .. ': ' .. filename.unique(winid) .. ' ' .. (vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(winid), "modified") and '[+]' or ""),
-            hl = { fg = hl_tabline_sel.fg, bg = hl_tabline_sel.bg },
-          }
-        end,
-        left_sep = { ' ', hl = 'TabLineFill' },
-      },
+    local theme = {
+      fill = 'TabLineFill',
+      -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
+      head = 'TabLine',
+      current_tab = 'TabLineSel',
+      tab = 'TabLine',
+      win = 'TabLine',
+      tail = 'TabLine',
     }
-
     require('tabby').setup({
-      tabline = tabline,
+      line = function(line)
+        return {
+          {
+            { ' = ', hl = theme.head },
+            line.sep('-', theme.head, theme.fill),
+          },
+          line.tabs().foreach(function(tab)
+            local hl = tab.is_current() and theme.current_tab or theme.tab
+            return {
+              line.sep('|', hl, theme.fill),
+              tab.is_current() and '!' or '`',
+              tab.number(),
+              tab.name(),
+              tab.close_btn('X'),
+              line.sep(' ', hl, theme.fill),
+              hl = hl,
+              margin = ' ',
+            }
+          end),
+          line.spacer(),
+          line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
+            return {
+              line.sep('|', theme.win, theme.fill),
+              win.is_current() and '!' or '`',
+              win.buf_name(),
+              line.sep(' ', theme.win, theme.fill),
+              hl = theme.win,
+              margin = ' ',
+            }
+          end),
+          {
+            line.sep(' ', theme.tail, theme.fill),
+            { '   ', hl = theme.tail },
+          },
+          hl = theme.fill,
+        }
+      end,
+      -- option = {}, -- setup modules' option,
     })
   '';
   config.plugins = {
