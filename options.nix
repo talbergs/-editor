@@ -37,6 +37,7 @@
     softtabstop = 4;
     shiftwidth = 4;
     expandtab = true;
+    foldmethod = "indent";
 
     smarttab = true;
     autoindent = true;

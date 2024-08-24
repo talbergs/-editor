@@ -35,10 +35,17 @@ let
 
 in
 {
-
-  config.highlight = {
-    ExtraWhitespace2.fg = colors.macchiato;
-  };
+  config.extraConfigLua = ''
+    vim.cmd[[hi WinBar guibg=#AAEEDD gui=bold,underline]]
+    vim.cmd[[hi TabLineSel gui=italic,bold guifg=#907aa9]]
+  '';
+  # config.highlight = {
+  # ExtraWhitespace2.fg = colors.macchiato;
+  # WinBar.fg = "#AAEEDD";
+  # WinBar.bg = "#AAEEDD";
+  # WinBar.ctermbg = "#AAEEDD";
+  # WinBar.link = "DiffDelete";
+  # };
   config.colorscheme = "peachpuff";
   config.match = {
     ExtraWhitespace = "\\s\\+$";

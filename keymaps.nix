@@ -84,6 +84,12 @@
     }
 
     {
+      key = "t";
+      action = ":Telescope lsp_document_symbols<cr>";
+      mode = [ "n" ];
+    }
+
+    {
       key = "<leader>t";
       action = ":Telescope lsp_document_symbols<cr>";
       mode = [ "n" ];
