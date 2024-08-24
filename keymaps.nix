@@ -25,7 +25,8 @@
     "<c-p>" = "cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'})";
     "<c-n>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
     # TODO: make completion sources a runtime config
-    # TODO: explicit completion sources keyseq and source pumenu
+    # TODO: explicit completion sources keyseq and source pumenu:
+    ## ^^^: imap <c-x> "open menu with set of completion sources".
   };
 
   config.keymaps = [
