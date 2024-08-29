@@ -14,7 +14,8 @@
 {
   config.extraPlugins = with pkgs.vimPlugins; [
     tabby-nvim
-    quicker
+    nvim-bqf
+    # quicker
   ];
   config.extraConfigLua = ''
     local theme = {
