@@ -12,9 +12,23 @@
   ...
 }:
 let
-  quicker = (
+  quicker = helpers.neovim-plugin.mkNeovimPlugin {
+    name = "neogit";
+    defaultPackage = (
+      pkgs.vimUtils.buildVimPlugin {
+        name = "my-plugin";
+        src = pkgs.fetchFromGitHub {
+          owner = "pwntester";
+          repo = "octo.nvim";
+          rev = "1e2376ac6966805be9967f4ea0e4cf7c750f8214";
+          hash = "sha256-sDWRAiM50jjUzzXLYoxn8rcE+H088BeAkvXNUb1AaBM=";
+        };
+      }
+    );
+  };
+  quicker2 = (
     pkgs.vimUtils.buildVimPlugin {
-      name = "quicker.nvim";
+      name = "quicker-nvim";
       src = pkgs.fetchFromGitHub {
         owner = "stevearc";
         repo = "quicker.nvim";
@@ -25,10 +39,11 @@ let
   );
 in
 {
+  imports = [ quicker ];
   config.extraPlugins = with pkgs.vimPlugins; [
     tabby-nvim
     nvim-bqf
-    quicker
+    quicker-nvim
   ];
   config.extraConfigLua = ''
     local theme = {
