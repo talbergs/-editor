@@ -11,6 +11,19 @@
   helpers,
   ...
 }:
+let
+  quicker = (
+    pkgs.vimUtils.buildVimPlugin {
+      name = "quicker.nvim";
+      src = pkgs.fetchFromGitHub {
+        owner = "stevearc";
+        repo = "quicker.nvim";
+        rev = "308088ebcec33f9ed551714e52390206b8f62ed6";
+        hash = "sha256-00000000000000000000000000000000000000000000";
+      };
+    }
+  );
+in
 {
   config.extraPlugins = with pkgs.vimPlugins; [
     tabby-nvim
