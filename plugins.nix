@@ -12,7 +12,10 @@
   ...
 }:
 {
-  config.extraPlugins = with pkgs.vimPlugins; [ tabby-nvim ];
+  config.extraPlugins = with pkgs.vimPlugins; [
+    tabby-nvim
+    quicker
+  ];
   config.extraConfigLua = ''
     local theme = {
       fill = 'TabLineFill',
