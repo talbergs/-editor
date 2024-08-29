@@ -19,7 +19,7 @@ let
         owner = "stevearc";
         repo = "quicker.nvim";
         rev = "308088ebcec33f9ed551714e52390206b8f62ed6";
-        hash = "sha256-00000000000000000000000000000000000000000000";
+        hash = "sha256-sDWRAiM50jjUzzXLYoxn8rcE+H088BeAkvXNUb1AaBM=";
       };
     }
   );
