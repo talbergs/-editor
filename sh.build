@@ -2,12 +2,15 @@
 
 set -e
 
-git add .
-git commit -m "Change pre-apply $(date '+%s')"
 
 export NIXPKGS_ALLOW_INSECURE=1
 export NIXPKGS_ALLOW_UNFREE=1
-nix build . --impure  -I nixpkgs=/home/done/Nix/vendor/nixpkgs-tru
-# nix build . --impure
+nix build . --impure
+
+git add .
+git commit -m "Change pre-apply $(date '+%s')"
+
 ./result/bin/nixvim-print-init > /tmp/nixvim.init.lua
+echo see /tmp/nixvim.init.lua
+# nix build . --impure
 # bat /tmp/nixvim.init.lua

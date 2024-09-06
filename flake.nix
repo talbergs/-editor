@@ -28,12 +28,12 @@
             module = {
               options = { };
               imports = [
-                ./keymaps.nix
-                ./plugins.nix
-                ./colours.nix
-                ./options.nix
-                ./autocmd.nix
-                ./mostuff.nix
+                # ./keymaps.nix
+                # ./plugins.nix
+                # ./colours.nix
+                # ./options.nix
+                # ./autocmd.nix
+                # ./mostuff.nix
               ];
               config = { };
               # config = import ./conf.nixvim.nix;
