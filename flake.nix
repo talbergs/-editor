@@ -31,7 +31,7 @@
                 ./keymaps.nix
                 # ./plugins.nix
                 # ./colours.nix
-                # ./options.nix
+                ./options.nix
                 ./autocmd.nix
                 ./mostuff.nix
               ];
