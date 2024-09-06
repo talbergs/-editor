@@ -37,8 +37,8 @@
                 ./autocmd.nix
                 ./mostuff.nix
               ];
-              config = { };
-              # config = import ./conf.nixvim.nix;
+              # config = { };
+              config = import ./conf.nixvim.nix;
             }; # import the module directly
             # You can use `extraSpecialArgs` to pass additional arguments to your module files.
             extraSpecialArgs = {
