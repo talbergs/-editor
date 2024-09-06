@@ -29,6 +29,8 @@ in
     quicker
   ];
   config.extraConfigLua = ''
+    require("quicker").setup()
+
     vim.cmd[[
     function! SourceFileIfExists(filepath) abort
         try
