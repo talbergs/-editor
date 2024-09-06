@@ -13,10 +13,10 @@
 }:
 let
   quicker = pkgs.vimUtils.buildVimPlugin {
-    name = "neogit";
+    name = "nvim-quicker";
     src = pkgs.fetchFromGitHub {
-      owner = "pwntester_bak";
-      repo = "octo.nvim";
+      owner = "stevearc";
+      repo = "quicker.nvim";
       rev = "1e2376ac6966805be9967f4ea0e4cf7c750f8214";
       hash = "sha256-sDWRAiM50jjUzzXLYoxn8rcE+H088BeAkvXNUb1AaBM=";
     };
