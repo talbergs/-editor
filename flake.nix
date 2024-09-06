@@ -27,7 +27,7 @@
             # module = import ./config; # import the module directly
             module = {
               options = with pkgs.lib; {
-                # pluu.enable = mkOption { type = with types; nullOr true; };
+                pluu.enable = mkOption { type = with types; nullOr (enum [ "sddm" ]); };
               };
               imports = [
                 ./keymaps.nix
