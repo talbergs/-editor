@@ -22,7 +22,7 @@
     # quicker
   ];
 
-  # config.pluu.enable = true;
+  config.pluu.enable = true;
   config.extraConfigLua = ''
     vim.cmd[[
     function! SourceFileIfExists(filepath) abort
