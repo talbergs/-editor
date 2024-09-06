@@ -177,7 +177,7 @@ in
     committia.enable = true;
     nvim-colorizer.enable = true;
     conform-nvim.enable = true;
-    conform-nvim.formatOnSave = null;
+    conform-nvim.settings.format_on_save = null;
     conform-nvim.notifyOnError = true;
     conform-nvim.formattersByFt = {
       html = [

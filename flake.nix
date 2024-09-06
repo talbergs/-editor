@@ -29,7 +29,7 @@
               options = { };
               imports = [
                 ./keymaps.nix
-                # ./plugins.nix
+                ./plugins.nix
                 ./colours.nix
                 ./options.nix
                 ./autocmd.nix
