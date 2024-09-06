@@ -32,7 +32,7 @@
                 # ./plugins.nix
                 # ./colours.nix
                 # ./options.nix
-                # ./autocmd.nix
+                ./autocmd.nix
                 ./mostuff.nix
               ];
               config = { };
