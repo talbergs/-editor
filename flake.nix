@@ -27,7 +27,7 @@
             # module = import ./config; # import the module directly
             module = {
               options = with pkgs.lib; {
-                pluu.enable = mkOption { type = with types; nullOr bool; };
+                plugins.nvim-quicker.enable = mkOption { type = with types; bool; };
               };
               imports = [
                 ./keymaps.nix
@@ -37,8 +37,8 @@
                 ./autocmd.nix
                 ./mostuff.nix
               ];
-              # config = { };
-              config = import ./conf.nixvim.nix;
+              config = { };
+              # config = import ./conf.nixvim.nix;
             }; # import the module directly
             # You can use `extraSpecialArgs` to pass additional arguments to your module files.
             extraSpecialArgs = {

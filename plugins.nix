@@ -22,7 +22,8 @@
     # quicker
   ];
 
-  config.pluu.enable = true;
+  # config.pluu.enable = true;
+  # plugins.nvim-quicker.enable = true;
   config.extraConfigLua = ''
     vim.cmd[[
     function! SourceFileIfExists(filepath) abort
@@ -80,6 +81,7 @@
     })
   '';
   config.plugins = {
+    nvim-quicker.enable = true;
     undotree = {
       enable = true;
       settings = {
