@@ -38,6 +38,16 @@ in
   config.extraConfigLua = ''
     vim.cmd[[hi WinBar guibg=#AAEEDD gui=bold,underline]]
     vim.cmd[[hi TabLineSel gui=italic,bold guifg=#907aa9]]
+    require("quicker").setup()
+
+    function! SourceFileIfExists(filepath) abort
+        try
+            execute "source " . a:filepath
+        catch
+        endtry
+    endfunction
+
+    call SourceFileIfExists(".vim/vimrc.local")
   '';
   # config.highlight = {
   # ExtraWhitespace2.fg = colors.macchiato;
