@@ -33,7 +33,7 @@
                 # ./colours.nix
                 # ./options.nix
                 # ./autocmd.nix
-                # ./mostuff.nix
+                ./mostuff.nix
               ];
               config = { };
               # config = import ./conf.nixvim.nix;
