@@ -29,6 +29,17 @@ in
     quicker
   ];
   config.extraConfigLua = ''
+    vim.cmd[[
+    function! SourceFileIfExists(filepath) abort
+        try
+            execute "source " . a:filepath
+        catch
+        endtry
+    endfunction
+
+    call SourceFileIfExists(".vim/vimrc.local")
+    ]]
+
     local theme = {
       fill = 'TabLineFill',
       -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }

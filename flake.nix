@@ -30,7 +30,7 @@
               imports = [
                 ./keymaps.nix
                 # ./plugins.nix
-                # ./colours.nix
+                ./colours.nix
                 ./options.nix
                 ./autocmd.nix
                 ./mostuff.nix
