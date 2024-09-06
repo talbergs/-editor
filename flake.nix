@@ -40,12 +40,10 @@
                   ./options.nix
                   ./autocmd.nix
                   ./mostuff.nix
+                  ./plugins-fetch.nix
                 ];
                 config = mkIf config.plugins.nvim-quicker.enable {
-                  extraConfigLua = ''
-                    require("quicker").setup()
-                    print("HI")
-                  '';
+                  extraConfigLua = config.plugins.nvim-quicker.setup;
                   extraPlugins = [
                     (pkgs.vimUtils.buildVimPlugin {
                       name = "nvim-quicker";
