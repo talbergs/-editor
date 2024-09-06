@@ -82,6 +82,9 @@
   '';
   config.plugins = {
     nvim-quicker.enable = true;
+    nvim-quicker.setup = ''
+      require("quicker").setup()
+    '';
     undotree = {
       enable = true;
       settings = {

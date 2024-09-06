@@ -25,21 +25,28 @@
           nixvimModule = {
             inherit pkgs;
             # module = import ./config; # import the module directly
-            module = {
-              options = with pkgs.lib; {
-                plugins.nvim-quicker.enable = mkOption { type = with types; bool; };
-              };
-              imports = [
-                ./keymaps.nix
-                ./plugins.nix
-                ./colours.nix
-                ./options.nix
-                ./autocmd.nix
-                ./mostuff.nix
-              ];
-              config = { };
-              # config = import ./conf.nixvim.nix;
-            }; # import the module directly
+            module =
+              with pkgs.lib;
+              { config, ... }:
+              {
+                options = {
+                  plugins.nvim-quicker.enable = mkEnableOption "Enable plugin";
+                  plugins.nvim-quicker.setup = mkOption { type = with types; str; };
+                };
+                imports = [
+                  ./keymaps.nix
+                  ./plugins.nix
+                  ./colours.nix
+                  ./options.nix
+                  ./autocmd.nix
+                  ./mostuff.nix
+                ];
+                config = mkIf config.plugins.nvim-quicker.enable {
+                  extraPlugins = [ ];
+                  #config contents
+                };
+                # config = import ./conf.nixvim.nix;
+              }; # import the module directly
             # You can use `extraSpecialArgs` to pass additional arguments to your module files.
             extraSpecialArgs = {
               # inherit (inputs) foo;
