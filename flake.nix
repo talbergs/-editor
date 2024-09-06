@@ -26,7 +26,9 @@
             inherit pkgs;
             # module = import ./config; # import the module directly
             module = {
-              options = { };
+              options = with pkgs.lib; {
+                # pluu.enable = mkOption { type = with types; nullOr true; };
+              };
               imports = [
                 ./keymaps.nix
                 ./plugins.nix
@@ -38,7 +40,7 @@
               config = { };
               # config = import ./conf.nixvim.nix;
             }; # import the module directly
-            # You can use `extraSpecialArgs` to pass additional arguments to your module files
+            # You can use `extraSpecialArgs` to pass additional arguments to your module files.
             extraSpecialArgs = {
               # inherit (inputs) foo;
             };
@@ -47,7 +49,7 @@
         in
         {
           checks = {
-            # Run `nix flake check .` to verify that your config is not broken
+            # Run `nix flake check .` to verify that your config is not broken.
             default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
           };
 
