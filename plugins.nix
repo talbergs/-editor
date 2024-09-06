@@ -178,8 +178,8 @@ in
     nvim-colorizer.enable = true;
     conform-nvim.enable = true;
     conform-nvim.settings.format_on_save = null;
-    conform-nvim.notifyOnError = true;
-    conform-nvim.formattersByFt = {
+    conform-nvim.settings.notify_on_error = true;
+    conform-nvim.settings.formatters_by_ft = {
       html = [
         [
           "prettierd"
