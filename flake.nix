@@ -28,7 +28,7 @@
             module = {
               options = { };
               imports = [
-                # ./keymaps.nix
+                ./keymaps.nix
                 # ./plugins.nix
                 # ./colours.nix
                 # ./options.nix
