@@ -1,12 +1,23 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, ... }:
+{
   config.luaLoader.enable = false;
   config.autoGroups.me.clear = true;
 
-  config.userCommands.Shoutout = { command = ":luafile /tmp/nixvim.init.lua"; };
-  config.userCommands.Format = { command = ":lua require('conform').format({async=true;lsp_fallback=true})"; };
-  config.userCommands.FormatOnSave = { command = ":lua require('conform').setup({format_on_save={lsp_fallback=true}})"; };
-  config.userCommands.FormatOnSaveOff = { command = ":lua require('conform').setup({format_on_save=null})"; };
-  config.userCommands.Cq = { command = ":cq"; };
+  config.userCommands.Shoutout = {
+    command = ":luafile /tmp/nixvim.init.lua";
+  };
+  config.userCommands.Format = {
+    command = ":lua require('conform').format({async=true;lsp_fallback=true})";
+  };
+  config.userCommands.FormatOnSave = {
+    command = ":lua require('conform').setup({format_on_save={lsp_fallback=true}})";
+  };
+  config.userCommands.FormatOnSaveOff = {
+    command = ":lua require('conform').setup({format_on_save=null})";
+  };
+  config.userCommands.Cq = {
+    command = ":cq";
+  };
 
   config.autoCmd = [
 
@@ -14,16 +25,23 @@
       event = [ "TextYankPost" ];
       group = "me";
       pattern = [ "*" ];
-      command =
-        ''lua vim.highlight.on_yank({higroup="MacchiatoRed", timeout=150})'';
+      command = ''lua vim.highlight.on_yank({higroup="MacchiatoRed", timeout=150})'';
     }
 
   ];
 
-  config.filetype = { filename = { "flake.lock" = "json"; }; };
+  config.filetype = {
+    filename = {
+      "flake.lock" = "json";
+    };
+  };
 
-  config.highlight = { MacchiatoRed.fg = "#ed8796"; };
-  config.match = { ExtraWhitespace = "\\s\\+$"; };
+  config.highlight = {
+    MacchiatoRed.fg = "#ed8796";
+  };
+  config.match = {
+    ExtraWhitespace = "\\s\\+$";
+  };
 
   config.extraFiles = { };
 

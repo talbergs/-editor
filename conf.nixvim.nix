@@ -1,5 +1,7 @@
-{ ... }:
-{ }
+{ config, ... }:
+{
+  extraConfigLua = ''print("yo")'';
+}
 
 # {
 #   pkgs,

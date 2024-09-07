@@ -81,10 +81,10 @@
     })
   '';
   config.plugins = {
-    nvim-quicker2.enable = true;
-    nvim-quicker2.setup = ''
-      print("HI2")
-    '';
+    # nvim-quicker2.enable = true;
+    # nvim-quicker2.setup = ''
+    #   print("HI2")
+    # '';
     nvim-quicker.enable = true;
     nvim-quicker.setup = ''
       require("quicker").setup()

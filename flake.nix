@@ -27,7 +27,7 @@
             # module = import ./config; # import the module directly
             module =
               with pkgs.lib;
-              { config, ... }:
+              { config, ... }@top:
               {
                 options = {
                   plugins.nvim-quicker.enable = mkEnableOption "Enable plugin";
@@ -40,24 +40,26 @@
                   ./options.nix
                   ./autocmd.nix
                   ./mostuff.nix
-                  ./plugins-fetch.nix
                 ];
-                config = mkIf config.plugins.nvim-quicker.enable {
-                  extraConfigLua = config.plugins.nvim-quicker.setup;
-                  extraPlugins = [
-                    (pkgs.vimUtils.buildVimPlugin {
-                      name = "nvim-quicker";
-                      src = pkgs.fetchFromGitHub {
-                        owner = "stevearc";
-                        repo = "quicker.nvim";
-                        rev = "308088ebcec33f9ed551714e52390206b8f62ed6";
-                        hash = "sha256-l2M4uVuQ+NW/Nf6fwGlBUqKiWzTld/tePMPMqk3W/oM=";
-                      };
-                    })
-                  ];
-                  #config contents
-                };
-                # config = import ./conf.nixvim.nix;
+
+                config = import ./conf.nixvim.nix top;
+
+                #config = mkIf config.plugins.nvim-quicker.enable {
+                #  extraConfigLua = config.plugins.nvim-quicker.setup;
+                #  extraPlugins = [
+                #    (pkgs.vimUtils.buildVimPlugin {
+                #      name = "nvim-quicker";
+                #      src = pkgs.fetchFromGitHub {
+                #        owner = "stevearc";
+                #        repo = "quicker.nvim";
+                #        rev = "308088ebcec33f9ed551714e52390206b8f62ed6";
+                #        hash = "sha256-l2M4uVuQ+NW/Nf6fwGlBUqKiWzTld/tePMPMqk3W/oM=";
+                #      };
+                #    })
+                #  ];
+                #  #config contents
+                #};
+
               }; # import the module directly
             # You can use `extraSpecialArgs` to pass additional arguments to your module files.
             extraSpecialArgs = {
