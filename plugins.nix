@@ -82,7 +82,7 @@
     })
   '';
   config.plugins = {
-    aa.enable = true;
+    aa.enable = false;
     # nvim-quicker2.enable = true;
     # nvim-quicker2.setup = ''
     #   print("HI2")
