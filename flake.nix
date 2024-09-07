@@ -24,7 +24,7 @@
           nixvim' = nixvim.legacyPackages.${system};
           nixvimModule =
             let
-              options = import ./_plugins_module_attrs.nix;
+              _plugins = import ./_plugins_module_attrs.nix;
             in
             {
               inherit pkgs;
@@ -32,7 +32,7 @@
                 with pkgs.lib;
                 { config, ... }@top:
                 {
-                  options = options top;
+                  options = _plugins.options top;
                   # options = {
                   #   plugins.aa.enable = mkEnableOption "Enable aa plugin";
                   #   plugins.nvim-quicker.enable = mkEnableOption "Enable plugin";
