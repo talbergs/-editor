@@ -24,7 +24,6 @@
           nixvim' = nixvim.legacyPackages.${system};
           nixvimModule = {
             inherit pkgs;
-            # module = import ./config; # import the module directly
             module =
               with pkgs.lib;
               { config, ... }@top:
