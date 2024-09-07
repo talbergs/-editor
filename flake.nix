@@ -24,6 +24,11 @@
           nixvim' = nixvim.legacyPackages.${system};
           nixvimModule =
             let
+              # Implements and declares custom plugins on nixvim api.
+              # Provides nixvim module with:
+              #   plugins.<name>.enable *bool
+              #   plugins.<name>.setup *str "Lua string"
+              # <name> - ussually smth fetchFromGitHub
               _plugins = import ./_plugins_module_attrs.nix;
             in
             {
@@ -32,12 +37,16 @@
                 with pkgs.lib;
                 { config, ... }@top:
                 {
+
                   options = _plugins.options top;
+                  config = _plugins.config top;
+
                   # options = {
                   #   plugins.aa.enable = mkEnableOption "Enable aa plugin";
                   #   plugins.nvim-quicker.enable = mkEnableOption "Enable plugin";
                   #   plugins.nvim-quicker.setup = mkOption { type = with types; str; };
                   # };
+
                   imports = [
                     ./keymaps.nix
                     ./plugins.nix
@@ -47,7 +56,7 @@
                     ./mostuff.nix
                   ];
 
-                  config = import ./conf.nixvim.nix top;
+                  # config = import ./conf.nixvim.nix top;
 
                   #config = mkIf config.plugins.nvim-quicker.enable {
                   #  extraConfigLua = config.plugins.nvim-quicker.setup;

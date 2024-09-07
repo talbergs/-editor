@@ -1,8 +1,8 @@
-{ config, lib, ... }:
-with lib;
-{
-  extraConfigLua = mkIf config.plugins.aa.enable ''print("y99o")'';
-}
+# { config, lib, ... }:
+# with lib;
+# {
+#   extraConfigLua = mkIf config.plugins.aa.enable ''print("y104o")'';
+# }
 
 # {
 #   pkgs,

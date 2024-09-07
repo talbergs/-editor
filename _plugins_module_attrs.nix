@@ -1,3 +1,6 @@
+let
+  mk = 2;
+in
 {
   options =
     { lib, ... }:
@@ -8,8 +11,14 @@
       plugins.nvim-quicker.enable = mkEnableOption "Enable plugin";
       plugins.nvim-quicker.setup = mkOption { type = with types; str; };
     };
+
   # implementation
-  config = {
-    # extraConfigLua = mkIf config.plugins.aa.enable ''print("y99o")'';
-  };
+  config =
+    { lib, config, ... }:
+    with lib;
+    {
+
+      extraConfigLua = mkIf config.plugins.aa.enable ''print("y100o")'';
+
+    };
 }
