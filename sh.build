@@ -14,3 +14,5 @@ git commit -m "Change pre-apply $(date '+%s')"
 echo see /tmp/nixvim.init.lua
 # nix build . --impure
 # bat /tmp/nixvim.init.lua
+
+test -z "$1" && ./result/bin/nvim
