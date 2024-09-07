@@ -29,7 +29,7 @@
               { config, ... }@top:
               {
                 options = {
-                  aa.enable = mkEnableOption "Enable plugin";
+                  aa.enable = mkEnableOption "Enable aa plugin";
                   plugins.nvim-quicker.enable = mkEnableOption "Enable plugin";
                   plugins.nvim-quicker.setup = mkOption { type = with types; str; };
                 };

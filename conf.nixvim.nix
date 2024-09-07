@@ -1,8 +1,7 @@
 { config, lib, ... }:
 with lib;
 {
-  extraConfigLua = ''print("yo")'';
-  aa.enable = mkEnableOption "Enable plugin";
+  extraConfigLua = mkIf config.aa.enable ''print("yo")'';
 }
 
 # {

@@ -5,10 +5,10 @@ in
 with pkgs.lib;
 {
 
-  options = {
-    plugins.nvim-quicker2.enable = mkEnableOption "Enable plugin 2";
-    plugins.nvim-quicker2.setup = mkOption { type = with types; str; };
-  };
+  # options = {
+  #   plugins.nvim-quicker2.enable = mkEnableOption "Enable plugin 2";
+  #   plugins.nvim-quicker2.setup = mkOption { type = with types; str; };
+  # };
 
   config = mkIf config.plugins.nvim-quicker2.enable { };
   # if cfg.enable then
