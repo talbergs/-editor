@@ -16,7 +16,7 @@
 # in
 {
   # imports = [ ./custom/nvim-quicker.nix ];
-  config.aa.enable = true;
+
   config.extraPlugins = [
     pkgs.vimPlugins.tabby-nvim
     pkgs.vimPlugins.nvim-bqf # make the preview to enable on <M-P>, for qf ft
@@ -82,6 +82,7 @@
     })
   '';
   config.plugins = {
+    aa.enable = true;
     # nvim-quicker2.enable = true;
     # nvim-quicker2.setup = ''
     #   print("HI2")

@@ -1,7 +1,7 @@
 { config, lib, ... }:
 with lib;
 {
-  extraConfigLua = mkIf config.aa.enable ''print("yo")'';
+  extraConfigLua = mkIf config.plugins.aa.enable ''print("y99o")'';
 }
 
 # {
