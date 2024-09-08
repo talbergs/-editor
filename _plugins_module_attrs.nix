@@ -35,9 +35,11 @@ in
     with lib;
     {
 
-      extraConfigLua = mkIf config.plugins.aa.enable ''print("y101o")'';
-      # ++ mkIf config.plugins.aa1.enable ''print("y102o")''
-      # ++ mkIf config.plugins.aa2.enable ''print("y103o")'';
+      extraConfigLua = concatLines [
+        (if config.plugins.aa.enable then ''print("y101o")'' else "")
+        (if config.plugins.aa1.enable then ''print("y102o")'' else "")
+        (if config.plugins.aa2.enable then ''print("y103o")'' else "")
+      ];
 
     };
 }
