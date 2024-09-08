@@ -23,6 +23,9 @@ with lib;
     with lib;
     let
 
+      # Improved styling - including syntax highlighting of grep results.
+      # Show context lines - easily view lines above and below the quickfix results.
+      # Editable buffer - make changes across your whole project by editing the quickfix buffer and :w.
       quicker = pkgs.vimUtils.buildVimPlugin {
         name = "nvim-quicker";
         src = pkgs.fetchFromGitHub {
@@ -34,6 +37,11 @@ with lib;
       };
       quicker_lua = if config.plugins.quicker.enable then config.plugins.quicker.setup else "";
 
+      # nvim-macros is your go-to Neovim plugin for supercharging your macro game!
+      # 🚀 It's all about making macro management in Neovim a breeze.
+      # Say goodbye to the fuss and hello to efficiency!
+      # This plugin lets you save, yank, and run your macros like a pro,
+      # and even handles those pesky special characters with ease.
       macros_librarian = pkgs.vimUtils.buildVimPlugin {
         name = "nvim-macros";
         src = pkgs.fetchFromGitHub {
