@@ -93,7 +93,6 @@
         WindowLayout = 4;
       };
     };
-    # https://github.com/sidebar-nvim/sidebar.nvim
     # sidebar-nvim.enable = true;
     cmp = {
       enable = true;
@@ -151,6 +150,11 @@
     navic.enable = true;
     # https://github.com/piersolenski/wtf.nvim
     wtf.enable = true;
+    sidebar.enable = true;
+    sidebar.setup = ''
+      local sidebar = require("sidebar-nvim")
+      local opts = {open = true}
+      sidebar.setup(opts)'';
     fidget.enable = true;
     navbuddy.enable = true;
     treesitter-context.enable = true;

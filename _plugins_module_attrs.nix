@@ -8,6 +8,7 @@ with lib;
       plugins =
         genAttrs
           [
+            "sidebar"
             "quicker"
             "macros_librarian"
           ]
@@ -22,6 +23,20 @@ with lib;
     { lib, config, ... }:
     with lib;
     let
+
+      # Improved styling - including syntax highlighting of grep results.
+      # Show context lines - easily view lines above and below the quickfix results.
+      # Editable buffer - make changes across your whole project by editing the quickfix buffer and :w.
+      sidebar = pkgs.vimUtils.buildVimPlugin {
+        name = "nvim-sidebar";
+        src = pkgs.fetchFromGitHub {
+          owner = "sidebar-nvim";
+          repo = "sidebar.nvim";
+          rev = "5695712eef6288fff667343c4ae77c54911bdb1b";
+          hash = "sha256-TCj5TUtEgTjT0WBR8usCcWT+b+w8ac+M6KAfMxIKItw=";
+        };
+      };
+      sidebar_lua = if config.plugins.sidebar.enable then config.plugins.sidebar.setup else "";
 
       # Improved styling - including syntax highlighting of grep results.
       # Show context lines - easily view lines above and below the quickfix results.
@@ -59,10 +74,12 @@ with lib;
 
       extraConfigLua = concatLines [
         quicker_lua
+        sidebar_lua
         macros_librarian_lua
       ];
       extraPlugins = [
         quicker
+        sidebar
         macros_librarian
       ];
 
