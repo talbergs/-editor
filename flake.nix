@@ -18,7 +18,7 @@
       ];
 
       perSystem =
-        { pkgs, system, ... }:
+        { pkgs, system, ... }@sys:
         let
           nixvimLib = nixvim.lib.${system};
           nixvim' = nixvim.legacyPackages.${system};
@@ -29,7 +29,7 @@
               #   plugins.<name>.enable *bool
               #   plugins.<name>.setup *str "Lua string"
               # <name> - ussually smth fetchFromGitHub
-              _plugins = import ./_plugins_module_attrs.nix;
+              _plugins = import ./_plugins_module_attrs.nix sys;
             in
             {
               inherit pkgs;

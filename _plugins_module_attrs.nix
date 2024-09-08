@@ -1,16 +1,17 @@
+{ lib, ... }:
+with lib;
 let
-  mk = 2;
+  mkApi = plugins_name: {
+    plugins = {
+      "${plugins_name}" = {
+        enable = mkEnableOption "Enable ${plugins_name} plugin";
+        setup = mkOption { type = with types; str; };
+      };
+    };
+  };
 in
 {
-  options =
-    { lib, ... }:
-    with lib;
-    {
-      plugins.aa.enable = mkEnableOption "Enable aa plugin";
-      plugins.aa2.enable = mkEnableOption "Enable aa plugin";
-      plugins.nvim-quicker.enable = mkEnableOption "Enable plugin";
-      plugins.nvim-quicker.setup = mkOption { type = with types; str; };
-    };
+  options = { lib, ... }: with lib; (mkApi "aa");
 
   # implementation
   config =
@@ -18,7 +19,7 @@ in
     with lib;
     {
 
-      extraConfigLua = mkIf config.plugins.aa.enable ''print("y100o")'';
+      extraConfigLua = mkIf config.plugins.aa.enable ''print("y101o")'';
 
     };
 }
