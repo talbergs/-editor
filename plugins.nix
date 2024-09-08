@@ -1,6 +1,4 @@
-# https://github.com/m-demare/hlargs.nvim
 ## https://github.com/desdic/macrothis.nvim
-## https://github.com/kr40/nvim-macros
 ## https://github.com/ofirgall/open.nvim
 ## https://github.com/rebelot/heirline.nvim
 # https://en.wikipedia.org/wiki/Ada_(programming_language)
@@ -12,10 +10,7 @@
   ...
 }:
 {
-  config.extraPlugins = [
-    pkgs.vimPlugins.tabby-nvim
-    pkgs.vimPlugins.nvim-bqf # make the preview to enable on <M-P>, for qf ft
-  ];
+  config.extraPlugins = [ pkgs.vimPlugins.tabby-nvim ];
 
   config.extraConfigLua = ''
     vim.cmd[[
@@ -222,6 +217,8 @@
     treesitter.enable = true;
     treesitter.nixvimInjections = true;
     fugitive.enable = true;
+    macros_librarian.enable = true;
+    macros_librarian.setup = ''require("nvim-macros").setup()'';
     lualine = {
       enable = true;
       globalstatus = true;
