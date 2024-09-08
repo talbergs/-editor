@@ -11,20 +11,12 @@
   helpers,
   ...
 }:
-# let
-#   quicker_lua = '''';
-# in
 {
-  # imports = [ ./custom/nvim-quicker.nix ];
-
   config.extraPlugins = [
     pkgs.vimPlugins.tabby-nvim
     pkgs.vimPlugins.nvim-bqf # make the preview to enable on <M-P>, for qf ft
-    # quicker
   ];
 
-  # config.pluu.enable = true;
-  # plugins.nvim-quicker.enable = true;
   config.extraConfigLua = ''
     vim.cmd[[
     function! SourceFileIfExists(filepath) abort
@@ -82,18 +74,6 @@
     })
   '';
   config.plugins = {
-    # aa.enable = true;
-    # aa1.enable = true;
-    # aa2.enable = true;
-    # nvim-quicker2.enable = true;
-    # nvim-quicker2.setup = ''
-    #   print("HI2")
-    # '';
-    # nvim-quicker.enable = true;
-    # nvim-quicker.setup = ''
-    #   require("quicker").setup()
-    #                 print("HI1")
-    # '';
     undotree = {
       enable = true;
       settings = {
@@ -237,6 +217,8 @@
       ];
       rust = [ "rustfmt" ];
     };
+    quicker.enable = true;
+    quicker.setup = ''require("quicker").setup()'';
     treesitter.enable = true;
     treesitter.nixvimInjections = true;
     fugitive.enable = true;

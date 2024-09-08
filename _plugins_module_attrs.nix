@@ -1,28 +1,23 @@
 { pkgs, lib, ... }:
 with lib;
-let
-  mkApi = plugins_name: {
-    plugins = {
-      "${plugins_name}" = {
-        enable = mkEnableOption "Enable ${plugins_name} plugin";
-        setup = mkOption { type = with types; str; };
-      };
-    };
-  };
-in
 {
-  # options = { lib, ... }: with lib; (mkApi "aa");
   options =
     { lib, ... }:
     with lib;
     {
-      plugins = genAttrs [ "quicker" ] (plugins_name: {
-        enable = mkEnableOption "Enable ${plugins_name} plugin";
-        setup = mkOption { type = with types; str; };
-      });
+      plugins =
+        genAttrs
+          [
+            "quicker"
+            "macros_librarian"
+          ]
+          (plugins_name: {
+            enable = mkEnableOption "Enable ${plugins_name} plugin";
+            setup = mkOption { type = with types; str; };
+          });
     };
 
-  # implementation
+  # Implementation:
   config =
     { lib, config, ... }:
     with lib;
@@ -37,16 +32,31 @@ in
           hash = "sha256-l2M4uVuQ+NW/Nf6fwGlBUqKiWzTld/tePMPMqk3W/oM=";
         };
       };
-      quicker_lua2 = ''
-        require("quicker").setup()
-      '';
       quicker_lua = if config.plugins.quicker.enable then config.plugins.quicker.setup else "";
+
+      macros_librarian = pkgs.vimUtils.buildVimPlugin {
+        name = "nvim-macros";
+        src = pkgs.fetchFromGitHub {
+          owner = "kr40";
+          repo = "nvim-macros";
+          rev = "f29d08ee7844ed6c9552699206e8c977d6936ee4";
+          hash = "sha256-l2M4uVuQ+NW/Nf6fwGlBUqKiWzTld/tePMPMqk3W/oM=";
+        };
+      };
+      macros_librarian_lua =
+        if config.plugins.macros_librarian.enable then config.plugins.macros_librarian.setup else "";
 
     in
     {
 
-      extraConfigLua = concatLines [ quicker_lua ];
-      extraPlugins = [ quicker ];
+      extraConfigLua = concatLines [
+        quicker_lua
+        macros_librarian_lua
+      ];
+      extraPlugins = [
+        quicker
+        macros_librarian
+      ];
 
     };
 }
