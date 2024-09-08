@@ -11,7 +11,23 @@ let
   };
 in
 {
-  options = { lib, ... }: with lib; (mkApi "aa");
+  # options = { lib, ... }: with lib; (mkApi "aa");
+  options =
+    { lib, ... }:
+    with lib;
+    {
+      plugins =
+        genAttrs
+          [
+            "aa"
+            "aa1"
+            "aa2"
+          ]
+          (plugins_name: {
+            enable = mkEnableOption "Enable ${plugins_name} plugin";
+            setup = mkOption { type = with types; str; };
+          });
+    };
 
   # implementation
   config =
