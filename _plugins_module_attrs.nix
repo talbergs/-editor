@@ -40,7 +40,7 @@ with lib;
           owner = "kr40";
           repo = "nvim-macros";
           rev = "f29d08ee7844ed6c9552699206e8c977d6936ee4";
-          hash = "sha256-l2M4uVuQ+NW/Nf6fwGlBUqKiWzTld/tePMPMqk3W/oM=";
+          hash = "sha256-UDmMx4myoj0hx78C682BKMJ6RE0RQ/ilQatmMPGHtg8=";
         };
       };
       macros_librarian_lua =
