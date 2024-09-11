@@ -197,15 +197,13 @@ in
           ignore_focus = [ "txt" ];
         };
         sections = {
-          lualine_a = [
-            {
-              name = "filename";
-              extraConfig = {
-                file_status = false;
-                path = 2;
-              };
-            }
-          ];
+          a = {
+            name = "filename";
+            extraConfig = {
+              file_status = false;
+              path = 2;
+            };
+          };
         };
         extensions = [
           "oil"
