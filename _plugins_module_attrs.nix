@@ -75,7 +75,7 @@ with lib;
       tabby = pkgs.vimPlugins.tabby-nvim;
       tabby_lua = if config.plugins.tabby.enable then config.plugins.tabby.setup else "";
 
-      # Gives PHPstan analysis.
+      # Gives RPC wrapper :PhpActor <cmd>
       phpactor = pkgs.vimUtils.buildVimPlugin {
         name = "phpactor";
         src = pkgs.fetchFromGitHub {
@@ -85,7 +85,7 @@ with lib;
           hash = "sha256-URA67dtZ51xZiw9YyoIuMlMgVLiDDK51BDotAOQISw0=";
         };
       };
-      phpactor_lua = '''';
+      phpactor_lua = if config.plugins.phpactor.enable then config.plugins.phpactor.setup else "";
 
     in
     {

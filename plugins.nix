@@ -31,7 +31,23 @@ in
   ];
   config.plugins = {
     phpactor.enable = true;
-    phpactor.setup = "";
+    phpactor.setup = ''
+      require("phpactor").setup({
+        install = {
+          path = vim.fn.stdpath("data") .. "/opt/",
+          branch = "master",
+          bin = "${lib.getExe pkgs.phpactor}",
+          php_bin = "${lib.getExe pkgs.php}",
+          composer_bin = "${lib.getExe pkgs.php83Packages.composer}",
+          git_bin = "${lib.getExe pkgs.git}",
+          check_on_startup = "none",
+        },
+        lspconfig = {
+          enabled = true,
+          options = {},
+        },
+      })
+    '';
     undotree = {
       enable = true;
       settings = {
