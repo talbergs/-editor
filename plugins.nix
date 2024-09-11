@@ -187,18 +187,18 @@ in
       enable = true;
       settings = {
         sections = {
-          a = {
-            name = "filename";
-            extraConfig = {
-              file_status = false;
-              path = 2;
-            };
-          };
-          # b = [ "branch" ];
-          # c = [ "diagnostic" ];
-          # x = [ "" ];
-          # y = [ "" ];
-          # z = [ "location" ];
+          # a = {
+          #   name = "filename";
+          #   extraConfig = {
+          #     file_status = false;
+          #     path = 2;
+          #   };
+          # };
+          b = [ "branch" ];
+          c = [ "diagnostic" ];
+          x = [ "" ];
+          y = [ "" ];
+          z = [ "location" ];
         };
         options = {
           globalstatus = true;
