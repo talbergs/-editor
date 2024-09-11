@@ -204,9 +204,22 @@ in
 
       settings.winbar.__raw = ''
         {
-          lualine_a = {'encoding'},
+          lualine_a = {},
           lualine_b = {},
-          lualine_c = {'filename'},
+          lualine_c = {
+            {
+              "filename",
+              color = function(section)
+                return { fg = vim.bo.modified and '#aa3355' or '#33aa88' }
+              end,
+              on_click = function (nr, btn, mod)
+                print(nr)
+                print(btn)
+                print(mod)
+                print("yo")
+              end
+            }
+          },
           lualine_x = {},
           lualine_y = {},
           lualine_z = {}
