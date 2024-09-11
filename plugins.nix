@@ -204,9 +204,41 @@ in
 
       settings.sections.__raw = ''
         {
-          lualine_a = {},
+          lualine_a = {
+            {
+              "filename",
+              file_status = true,
+              newfile_status = true,
+              path = 4, -- Filename and parent dir, with tilde as the home directory
+              symbols = {
+                modified = '[+]',
+                readonly = '[-]',
+                unnamed = '[No Name]',
+                newfile = '[New]',
+              }
+            },
+
+            {
+              "fileformat",
+              symbols = {
+                unix = 'unix',
+                dos = 'dos',
+                mac = 'mac',
+              }
+            },
+
+            {
+              "filetype",
+              colored = true,
+              icon_only = false,
+              icon = { align = 'right' },
+            }
+          },
           lualine_b = {},
           lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {},
         }
       '';
       # settings.sections = {
