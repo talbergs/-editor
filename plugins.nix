@@ -196,18 +196,20 @@ in
           icons_enabled = false;
           ignore_focus = [ "txt" ];
         };
+        sections = {
+          lualine_a = [
+            {
+              name = "filename";
+              extraConfig = {
+                file_status = false;
+                path = 2;
+              };
+            }
+          ];
+        };
         extensions = [
           "oil"
           "man"
-        ];
-        sections.lualine_a = [
-          {
-            name = "filename";
-            extraConfig = {
-              file_status = false;
-              path = 2;
-            };
-          }
         ];
       };
       # - `branch` (git branch)
