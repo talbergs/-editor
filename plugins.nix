@@ -30,6 +30,7 @@ in
     user_lua
   ];
   config.plugins = {
+    phpactor.enable = true;
     undotree = {
       enable = true;
       settings = {
@@ -54,7 +55,6 @@ in
         WindowLayout = 4;
       };
     };
-    # sidebar-nvim.enable = true;
     cmp = {
       enable = true;
       autoEnableSources = true;
@@ -93,17 +93,17 @@ in
       servers.dockerls.enable = true;
       servers.html.enable = true;
       servers.jsonls.enable = true;
-      servers.phpactor.enable = true;
-      servers.phpactor.extraOptions.init_options = helpers.mkRaw ''
-        {
-                -- Phpactor configuration maps 1:1 to lsp init_options
-                -- https://phpactor.readthedocs.io/en/master/reference/configuration.html#ref-configuration
-                -- ["language_server_psalm.enabled"] = true,
-                ["language_server_phpstan.enabled"] = true,
-                ["language_server_phpstan.level"] = 9,
-                -- ["language_server_phpstan.bin"] = "${pkgs.php83Packages.phpstan}/bin/phpstan",
-              }
-      '';
+      # servers.phpactor.enable = true;
+      # servers.phpactor.extraOptions.init_options = helpers.mkRaw ''
+      #   {
+      #           -- Phpactor configuration maps 1:1 to lsp init_options
+      #           -- https://phpactor.readthedocs.io/en/master/reference/configuration.html#ref-configuration
+      #           -- ["language_server_psalm.enabled"] = true,
+      #           ["language_server_phpstan.enabled"] = true,
+      #           ["language_server_phpstan.level"] = 9,
+      #           ["language_server_phpstan.bin"] = "${pkgs.php83Packages.phpstan}/bin/phpstan",
+      #         }
+      # '';
       servers.nixd.enable = true;
       servers.nil-ls.enable = true;
       servers.pyright.enable = true;
@@ -203,7 +203,7 @@ in
           "man"
         ];
 
-        winbar_inactive.__raw = winbar.__raw;
+        inactive_winbar.__raw = winbar.__raw;
         winbar.__raw = ''
           {
             lualine_a = {

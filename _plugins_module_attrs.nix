@@ -12,6 +12,7 @@ with lib;
             "quicker"
             "macros_librarian"
             "tabby"
+            "phpactor"
           ]
           (plugins_name: {
             enable = mkEnableOption "Enable ${plugins_name} plugin";
@@ -73,6 +74,9 @@ with lib;
       # Makes tabs nameable.
       tabby = pkgs.vimPlugins.tabby-nvim;
       tabby_lua = if config.plugins.tabby.enable then config.plugins.tabby.setup else "";
+      # Gives PHPstan analysis.
+      phpactor = pkgs.vimPlugins.phpactor;
+      phpactor_lua = '''';
 
     in
     {
@@ -82,12 +86,14 @@ with lib;
         sidebar_lua
         macros_librarian_lua
         tabby_lua
+        phpactor_lua
       ];
       extraPlugins = [
         quicker
         sidebar
         macros_librarian
         tabby
+        phpactor
       ];
 
     };
