@@ -31,6 +31,7 @@ in
   ];
   config.plugins = {
     phpactor.enable = true;
+    phpactor.setup = "";
     undotree = {
       enable = true;
       settings = {
