@@ -188,13 +188,13 @@ in
       settings = {
         options = {
           globalstatus = true;
-          componentSeparators.left = "";
-          componentSeparators.right = "";
-          sectionSeparators.left = "";
-          sectionSeparators.right = "";
-          alwaysDivideMiddle = false;
-          iconsEnabled = false;
-          ignoreFocus = [ "txt" ];
+          component_separators.left = "";
+          component_separators.right = "";
+          section_separators.left = "";
+          section_separators.right = "";
+          always_divide_middle = false;
+          icons_enabled = false;
+          ignore_focus = [ "txt" ];
         };
         extensions = [
           "oil"
