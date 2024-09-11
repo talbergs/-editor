@@ -206,19 +206,12 @@ in
         # +-------------------------------------------------+
         # | A | B | C                             X | Y | Z |
         # +-------------------------------------------------+
-        lualine_a = [ ];
-        lualine_b = [ "branch" ];
-        lualine_c = [ "filename" ];
-
-        lualine_x = [
-          "diagnostics"
-          "encoding"
-          "fileformat"
-          "filetype"
-        ];
-
-        lualine_y = [ ];
-        lualine_z = [ ];
+        lualine_a = null;
+        lualine_b = null;
+        lualine_c = null;
+        lualine_x = null;
+        lualine_y = null;
+        lualine_z = null;
       };
       # settings = {
       # sections = {
