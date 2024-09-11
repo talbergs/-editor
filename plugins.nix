@@ -187,7 +187,7 @@ in
       enable = true;
       settings = {
         sections = {
-          a = [
+          lualine_a = [
             {
               name = "filename";
               extraConfig = {
@@ -196,11 +196,11 @@ in
               };
             }
           ];
-          # b = [ { name = "branch"; } ];
-          # c = [ "diagnostic" ];
-          # x = [ "" ];
-          # y = [ "" ];
-          # z = [ "location" ];
+          lualine_b = [ { name = "branch"; } ];
+          lualine_c = [ { name = "diagnostic"; } ];
+          lualine_x = [ ];
+          lualine_y = [ ];
+          lualine_z = [ { name = "location"; } ];
         };
         options = {
           globalstatus = true;
