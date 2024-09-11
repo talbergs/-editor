@@ -196,7 +196,7 @@ in
               };
             }
           ];
-          # b = [ "branch" ];
+          b = [ { name = "branch"; } ];
           # c = [ "diagnostic" ];
           # x = [ "" ];
           # y = [ "" ];
