@@ -187,13 +187,15 @@ in
       enable = true;
       settings = {
         sections = {
-          a = {
-            name = "filename";
-            extraConfig = {
-              file_status = false;
-              path = 2;
-            };
-          };
+          a = [
+            {
+              name = "filename";
+              extraConfig = {
+                file_status = false;
+                path = 2;
+              };
+            }
+          ];
           # b = [ "branch" ];
           # c = [ "diagnostic" ];
           # x = [ "" ];
