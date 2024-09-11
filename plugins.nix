@@ -204,7 +204,7 @@ in
 
       settings.sections.__raw = ''
         {
-          lualine_a = { "progress" },
+          lualine_a = { "branch" },
           lualine_b = {
             {
               "filename",
@@ -219,32 +219,11 @@ in
               }
             },
 
-            {
-              "fileformat",
-              symbols = {
-                unix = 'unix',
-                dos = 'dos',
-                mac = 'mac',
-              }
-            },
-
-            {
-              "filetype",
-              colored = true,
-              icon_only = false,
-              icon = { align = 'right' },
-            },
-
-            {
-              "encoding",
-              show_bomb = true,
-            }
-
           },
           lualine_c = {},
           lualine_x = {},
-          lualine_y = { "encoding", "fileformat", "filetype" },
-          lualine_z = { "location" },
+          lualine_y = { { "encoding", show_bomb = true, }, { "filetype", icon_only = true } },
+          lualine_z = { "progress", "location" },
         }
       '';
       # settings.sections = {
