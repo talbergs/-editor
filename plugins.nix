@@ -186,70 +186,72 @@ in
     lualine = {
       enable = true;
 
-      settings.options = {
-        globalstatus = true;
-        component_separators.left = "";
-        component_separators.right = "";
-        section_separators.left = "";
-        section_separators.right = "";
-        always_divide_middle = false;
-        icons_enabled = false;
-        ignore_focus = [ "txt" ];
-      };
+      settings = rec {
+        options = {
+          globalstatus = true;
+          component_separators.left = "";
+          component_separators.right = "";
+          section_separators.left = "";
+          section_separators.right = "";
+          always_divide_middle = false;
+          icons_enabled = false;
+          ignore_focus = [ "txt" ];
+        };
 
-      settings.extensions = [
-        "oil"
-        "man"
-      ];
+        extensions = [
+          "oil"
+          "man"
+        ];
 
-      settings.winbar.__raw = ''
-        {
-          lualine_a = {},
-          lualine_b = {},
-          lualine_c = {
-            {
-              "filename",
-              color = function(section)
-                return { fg = vim.bo.modified and '#aa3355' or '#33aa88' }
-              end,
-              on_click = function (nr, btn, mod)
-                print(nr)
-                print(btn)
-                print(mod)
-                print("yo")
-              end
-            }
-          },
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {}
-        }
-
-      '';
-      settings.sections.__raw = ''
-        {
-          lualine_a = { "branch" },
-          lualine_b = {
-            {
-              "filename",
-              file_status = true,
-              newfile_status = true,
-              path = 4, -- Filename and parent dir, with tilde as the home directory
-              symbols = {
-                modified = '[+]',
-                readonly = '[-]',
-                unnamed = '[No Name]',
-                newfile = '[New]',
+        winbar_inactive.__raw = winbar.__raw;
+        winbar.__raw = ''
+          {
+            lualine_a = {
+              {
+                "filename",
+                path = 2,
+                symbols = {},
+                color = function(section)
+                  return { fg = vim.bo.modified and '#aa3355' or '#33aa88' }
+                end,
+                on_click = function (nr, btn, mod)
+                -- 11c open in new tab
+                -- 21  copy full path to +"
+                end
               }
             },
+            lualine_b = {},
+            lualine_c = {},
+            lualine_x = {},
+            lualine_y = {},
+            lualine_z = {}
+          }
+        '';
+        sections.__raw = ''
+          {
+            lualine_a = { "branch" },
+            lualine_b = {
+              {
+                "filename",
+                file_status = true,
+                newfile_status = true,
+                path = 4, -- Filename and parent dir, with tilde as the home directory
+                symbols = {
+                  modified = '[+]',
+                  readonly = '[-]',
+                  unnamed = '[No Name]',
+                  newfile = '[New]',
+                }
+              },
 
-          },
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = { { "encoding", show_bomb = true, }, { "filetype", icon_only = true } },
-          lualine_z = { "progress", "location" },
-        }
-      '';
+            },
+            lualine_c = {},
+            lualine_x = {},
+            lualine_y = { { "encoding", show_bomb = true, }, { "filetype", icon_only = true } },
+            lualine_z = { "progress", "location" },
+          }
+        '';
+      };
     };
     telescope.enable = true;
     oil.enable = true;
