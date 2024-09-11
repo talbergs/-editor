@@ -186,6 +186,21 @@ in
     lualine = {
       enable = true;
       settings = {
+        sections = {
+          a = {
+            name = "filename";
+            extraConfig = {
+              file_status = false;
+              path = 2;
+            };
+          };
+
+          b = [ "branch" ];
+          c = [ "diagnostic" ];
+          x = [ "" ];
+          y = [ "" ];
+          z = [ "location" ];
+        };
         options = {
           globalstatus = true;
           component_separators.left = "";
@@ -195,15 +210,6 @@ in
           always_divide_middle = false;
           icons_enabled = false;
           ignore_focus = [ "txt" ];
-        };
-        sections = {
-          a = {
-            name = "filename";
-            extraConfig = {
-              file_status = false;
-              path = 2;
-            };
-          };
         };
         extensions = [
           "oil"
@@ -227,11 +233,6 @@ in
       # - `selectioncount` (number of selected characters or lines)
       # - `tabs` (shows currently available tabs)
       # - `windows` (shows currently available windows)
-      sections.lualine_b = [ "branch" ];
-      sections.lualine_c = [ "diagnostic" ];
-      sections.lualine_x = [ "" ];
-      sections.lualine_y = [ "" ];
-      sections.lualine_z = [ "location" ];
     };
     telescope.enable = true;
     oil.enable = true;
