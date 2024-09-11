@@ -44,7 +44,11 @@ in
         },
         lspconfig = {
           enabled = true,
-          options = {},
+          options = {
+            on_attach = function ()
+              print("ou yee")
+            end
+          },
         },
       })
     '';
