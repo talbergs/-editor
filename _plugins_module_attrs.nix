@@ -74,8 +74,17 @@ with lib;
       # Makes tabs nameable.
       tabby = pkgs.vimPlugins.tabby-nvim;
       tabby_lua = if config.plugins.tabby.enable then config.plugins.tabby.setup else "";
+
       # Gives PHPstan analysis.
-      phpactor = pkgs.vimPlugins.phpactor;
+      phpactor = pkgs.vimUtils.buildVimPlugin {
+        name = "phpactor";
+        src = pkgs.fetchFromGitHub {
+          owner = "gbprod";
+          repo = "phpactor.nvim";
+          rev = "db250633e7b9f0e08cc7cce364de8b7adad4f6d2";
+          hash = "sha256-URA67dtZ51xZiw9YyoIuMlMgVLiDDK51BDotAOQISw0=";
+        };
+      };
       phpactor_lua = '''';
 
     in
