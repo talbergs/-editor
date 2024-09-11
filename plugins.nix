@@ -204,7 +204,8 @@ in
 
       settings.sections.__raw = ''
         {
-          lualine_a = {
+          lualine_a = { "progress" },
+          lualine_b = {
             {
               "filename",
               file_status = true,
@@ -232,13 +233,18 @@ in
               colored = true,
               icon_only = false,
               icon = { align = 'right' },
+            },
+
+            {
+              "encoding",
+              show_bomb = true,
             }
+
           },
-          lualine_b = {},
           lualine_c = {},
           lualine_x = {},
-          lualine_y = {},
-          lualine_z = {},
+          lualine_y = { "encoding", "fileformat", "filetype" },
+          lualine_z = { "location" },
         }
       '';
       # settings.sections = {
