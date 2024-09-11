@@ -185,55 +185,96 @@ in
     macros_librarian.setup = ''require("nvim-macros").setup()'';
     lualine = {
       enable = true;
-      settings = {
-        sections = {
-          lualine_a = [
-            {
-              name = "filename";
-              extraConfig = {
-                file_status = false;
-                path = 2;
-              };
-            }
-          ];
-          lualine_b = [ { name = "branch"; } ];
-          lualine_c = [ { name = "diagnostic"; } ];
-          lualine_x = [ ];
-          lualine_y = [ ];
-          lualine_z = [ { name = "location"; } ];
-        };
-        options = {
-          globalstatus = true;
-          component_separators.left = "";
-          component_separators.right = "";
-          section_separators.left = "";
-          section_separators.right = "";
-          always_divide_middle = false;
-          icons_enabled = false;
-          ignore_focus = [ "txt" ];
-        };
-        extensions = [
-          "oil"
-          "man"
+      settings.sections = {
+        # +-------------------------------------------------+
+        # | A | B | C                             X | Y | Z |
+        # +-------------------------------------------------+
+        # - `branch` (git branch)
+        # - `buffers` (shows currently available buffers)
+        # - `diagnostics` (diagnostics count from your preferred source)
+        # - `diff` (git diff status)
+        # - `encoding` (file encoding)
+        # - `fileformat` (file format)
+        # - `filename`
+        # - `filesize`
+        # - `filetype`
+        # - `hostname`
+        # - `location` (location in file in line:column format)
+        # - `mode` (vim mode)
+        # - `progress` (%progress in file)
+        # - `searchcount` (number of search matches when hlsearch is active)
+        # - `selectioncount` (number of selected characters or lines)
+        # - `tabs` (shows currently available tabs)
+        # - `windows` (shows currently available windows)
+        lualine_a = [ "mode" ];
+        lualine_b = [ "branch" ];
+        lualine_c = [
+          "filename"
+          "diff"
+        ];
+
+        lualine_x = [
+          "diagnostics"
+
+          # Show active language server
+          {
+            name.__raw = ''
+              function()
+                  local msg = ""
+                  local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+                  local clients = vim.lsp.get_active_clients()
+                  if next(clients) == nil then
+                      return msg
+                  end
+                  for _, client in ipairs(clients) do
+                      local filetypes = client.config.filetypes
+                      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+                          return client.name
+                      end
+                  end
+                  return msg
+              end
+            '';
+            icon = " ";
+            # color.fg = "#ffffff";
+          }
+          "encoding"
+          "fileformat"
+          "filetype"
         ];
       };
-      # - `branch` (git branch)
-      # - `buffers` (shows currently available buffers)
-      # - `diagnostics` (diagnostics count from your preferred source)
-      # - `diff` (git diff status)
-      # - `encoding` (file encoding)
-      # - `fileformat` (file format)
-      # - `filename`
-      # - `filesize`
-      # - `filetype`
-      # - `hostname`
-      # - `location` (location in file in line:column format)
-      # - `mode` (vim mode)
-      # - `progress` (%progress in file)
-      # - `searchcount` (number of search matches when hlsearch is active)
-      # - `selectioncount` (number of selected characters or lines)
-      # - `tabs` (shows currently available tabs)
-      # - `windows` (shows currently available windows)
+      settings = {
+        # sections = {
+        #   lualine_a = [
+        #     {
+        #       name = "filename";
+        #       extraConfig = {
+        #         file_status = false;
+        #         path = 2;
+        #       };
+        #     }
+        #   ];
+        #   lualine_b = [ { name = "branch"; } ];
+        #   lualine_c = [ { name = "diagnostic"; } ];
+        #   lualine_x = [ ];
+        #   lualine_y = [ ];
+        #   lualine_z = [ { name = "location"; } ];
+        # };
+        # options = {
+        #   globalstatus = true;
+        #   component_separators.left = "";
+        #   component_separators.right = "";
+        #   section_separators.left = "";
+        #   section_separators.right = "";
+        #   always_divide_middle = false;
+        #   icons_enabled = false;
+        #   ignore_focus = [ "txt" ];
+        # };
+        # extensions = [
+        #   "oil"
+        #   "man"
+        # ];
+      };
     };
     telescope.enable = true;
     oil.enable = true;
