@@ -194,12 +194,11 @@ in
               path = 2;
             };
           };
-
-          b = [ "branch" ];
-          c = [ "diagnostic" ];
-          x = [ "" ];
-          y = [ "" ];
-          z = [ "location" ];
+          # b = [ "branch" ];
+          # c = [ "diagnostic" ];
+          # x = [ "" ];
+          # y = [ "" ];
+          # z = [ "location" ];
         };
         options = {
           globalstatus = true;
