@@ -34,8 +34,7 @@
             {
               inherit pkgs;
               module =
-                with pkgs.lib;
-                { config, ... }@top:
+                { ... }@top:
                 {
 
                   options = _plugins.options top;

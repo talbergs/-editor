@@ -11,6 +11,7 @@ with lib;
             "sidebar"
             "quicker"
             "macros_librarian"
+            "tabby"
           ]
           (plugins_name: {
             enable = mkEnableOption "Enable ${plugins_name} plugin";
@@ -69,6 +70,10 @@ with lib;
       macros_librarian_lua =
         if config.plugins.macros_librarian.enable then config.plugins.macros_librarian.setup else "";
 
+      # Makes tabs nameable.
+      tabby = pkgs.vimPlugins.tabby-nvim;
+      tabby_lua = if config.plugins.tabby.enable then config.plugins.tabby.setup else "";
+
     in
     {
 
@@ -76,11 +81,13 @@ with lib;
         quicker_lua
         sidebar_lua
         macros_librarian_lua
+        tabby_lua
       ];
       extraPlugins = [
         quicker
         sidebar
         macros_librarian
+        tabby
       ];
 
     };
