@@ -12,36 +12,6 @@
 }:
 with lib;
 let
-  # tabby = pkgs.vimPlugins.tabby-nvim;
-  tabby_lua = ''
-    local theme = {
-      fill = 'TabLineFill',
-      -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
-      head = 'TabLine',
-      current_tab = 'TabLineSel',
-      tab = 'TabLine',
-      win = 'TabLine',
-      tail = 'TabLine',
-    }
-    local line = function(line)
-      return {
-        line.tabs().foreach(function(tab)
-          local hl = tab.is_current() and theme.current_tab or theme.tab
-          return {
-            line.sep('|', hl, theme.fill),
-            tab.is_current() and '▶' or '▷',
-            tab.name(),
-            line.sep(' ', hl, theme.fill),
-            hl = hl,
-            margin = ' ',
-          }
-        end),
-        line.spacer(),
-        hl = theme.fill,
-      }
-    end
-    require('tabby').setup({ line = line })
-  '';
   user_lua = ''
     vim.cmd[[
     function! SourceFileIfExists(filepath) abort
@@ -56,9 +26,7 @@ let
   '';
 in
 {
-  # config.extraPlugins = [ tabby ];
   config.extraConfigLua = concatLines [
-    # tabby_lua
     user_lua
   ];
   config.plugins = {
@@ -217,27 +185,31 @@ in
     macros_librarian.setup = ''require("nvim-macros").setup()'';
     lualine = {
       enable = true;
-      globalstatus = true;
-      componentSeparators.left = "";
-      componentSeparators.right = "";
-      sectionSeparators.left = "";
-      sectionSeparators.right = "";
-      alwaysDivideMiddle = false;
-      iconsEnabled = false;
-      ignoreFocus = [ "txt" ];
-      extensions = [
-        "oil"
-        "man"
-      ];
-      sections.lualine_a = [
-        {
-          name = "filename";
-          extraConfig = {
-            file_status = false;
-            path = 2;
-          };
-        }
-      ];
+      settings = {
+        options = {
+          globalstatus = true;
+          componentSeparators.left = "";
+          componentSeparators.right = "";
+          sectionSeparators.left = "";
+          sectionSeparators.right = "";
+          alwaysDivideMiddle = false;
+          iconsEnabled = false;
+          ignoreFocus = [ "txt" ];
+        };
+        extensions = [
+          "oil"
+          "man"
+        ];
+        sections.lualine_a = [
+          {
+            name = "filename";
+            extraConfig = {
+              file_status = false;
+              path = 2;
+            };
+          }
+        ];
+      };
       # - `branch` (git branch)
       # - `buffers` (shows currently available buffers)
       # - `diagnostics` (diagnostics count from your preferred source)
