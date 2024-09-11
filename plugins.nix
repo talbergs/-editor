@@ -202,17 +202,24 @@ in
         "man"
       ];
 
-      settings.sections = {
-        # +-------------------------------------------------+
-        # | A | B | C                             X | Y | Z |
-        # +-------------------------------------------------+
-        lualine_a = null;
-        lualine_b = null;
-        lualine_c = null;
-        lualine_x = null;
-        lualine_y = null;
-        lualine_z = null;
-      };
+      settings.sections.__raw = ''
+        {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {},
+        }
+      '';
+      # settings.sections = {
+      #   # +-------------------------------------------------+
+      #   # | A | B | C                             X | Y | Z |
+      #   # +-------------------------------------------------+
+      #   lualine_a = null;
+      #   lualine_b = null;
+      #   lualine_c = null;
+      #   lualine_x = null;
+      #   lualine_y = null;
+      #   lualine_z = null;
+      # };
       # settings = {
       # sections = {
       #   lualine_a = [
