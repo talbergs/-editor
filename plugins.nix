@@ -30,23 +30,34 @@ in
     user_lua
   ];
   config.plugins = {
-    phpactor.enable = true;
+    lsplens.enable = true;
+    lsplens.setup = ''
+      require("lsp-lens").setup({})
+    '';
+    phpactor.enable = false;
     phpactor.setup = ''
       require("phpactor").setup({
         install = {
           path = vim.fn.stdpath("data") .. "/opt/",
-          branch = "master",
           bin = "${lib.getExe pkgs.phpactor}",
           php_bin = "${lib.getExe pkgs.php}",
           composer_bin = "${lib.getExe pkgs.php83Packages.composer}",
           git_bin = "${lib.getExe pkgs.git}",
-          check_on_startup = "none",
         },
         lspconfig = {
           enabled = true,
           options = {
+            init_options = {
+              -- Phpactor configuration maps 1:1 to lsp init_options
+              -- https://phpactor.readthedocs.io/en/master/reference/configuration.html#ref-configuration
+              -- ["language_server_psalm.enabled"] = true,
+              ["language_server_phpstan.enabled"] = true,
+              ["language_server_phpstan.level"] = 9,
+              ["language_server_phpstan.bin"] = "${lib.getExe pkgs.php83Packages.phpstan}",
+            },
             on_attach = function ()
-              print("ou yee")
+              -- register keymaps,
+              -- nmap <c-a> :PhpActor import_missing_classes
             end
           },
         },
@@ -114,17 +125,6 @@ in
       servers.dockerls.enable = true;
       servers.html.enable = true;
       servers.jsonls.enable = true;
-      # servers.phpactor.enable = true;
-      # servers.phpactor.extraOptions.init_options = helpers.mkRaw ''
-      #   {
-      #           -- Phpactor configuration maps 1:1 to lsp init_options
-      #           -- https://phpactor.readthedocs.io/en/master/reference/configuration.html#ref-configuration
-      #           -- ["language_server_psalm.enabled"] = true,
-      #           ["language_server_phpstan.enabled"] = true,
-      #           ["language_server_phpstan.level"] = 9,
-      #           ["language_server_phpstan.bin"] = "${pkgs.php83Packages.phpstan}/bin/phpstan",
-      #         }
-      # '';
       servers.nixd.enable = true;
       servers.nil-ls.enable = true;
       servers.pyright.enable = true;

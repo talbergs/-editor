@@ -13,6 +13,7 @@ with lib;
             "macros_librarian"
             "tabby"
             "phpactor"
+            "lsplens"
           ]
           (plugins_name: {
             enable = mkEnableOption "Enable ${plugins_name} plugin";
@@ -87,6 +88,18 @@ with lib;
       };
       phpactor_lua = if config.plugins.phpactor.enable then config.plugins.phpactor.setup else "";
 
+      # Gives RPC wrapper :PhpActor <cmd>
+      lsplens = pkgs.vimUtils.buildVimPlugin {
+        name = "lsplens";
+        src = pkgs.fetchFromGitHub {
+          owner = "VidocqH";
+          repo = "lsp-lens.nvim";
+          rev = "48bb1a7e271424c15f3d588d54adc9b7c319d977";
+          hash = "sha256-zj/Gn/40jnDNh05OFc23LNNuFn1PnIAUDfPquEWpAlk=";
+        };
+      };
+      lsplens_lua = if config.plugins.lsplens.enable then config.plugins.lsplens.setup else "";
+
     in
     {
 
@@ -96,6 +109,7 @@ with lib;
         macros_librarian_lua
         tabby_lua
         phpactor_lua
+        lsplens_lua
       ];
       extraPlugins = [
         quicker
@@ -103,6 +117,7 @@ with lib;
         macros_librarian
         tabby
         phpactor
+        lsplens
       ];
 
     };
