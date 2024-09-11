@@ -202,6 +202,17 @@ in
         "man"
       ];
 
+      settings.winbar.__raw = ''
+        {
+          lualine_a = {'encoding'},
+          lualine_b = {},
+          lualine_c = {'filename'},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        }
+
+      '';
       settings.sections.__raw = ''
         {
           lualine_a = { "branch" },
@@ -226,49 +237,6 @@ in
           lualine_z = { "progress", "location" },
         }
       '';
-      # settings.sections = {
-      #   # +-------------------------------------------------+
-      #   # | A | B | C                             X | Y | Z |
-      #   # +-------------------------------------------------+
-      #   lualine_a = null;
-      #   lualine_b = null;
-      #   lualine_c = null;
-      #   lualine_x = null;
-      #   lualine_y = null;
-      #   lualine_z = null;
-      # };
-      # settings = {
-      # sections = {
-      #   lualine_a = [
-      #     {
-      #       name = "filename";
-      #       extraConfig = {
-      #         file_status = false;
-      #         path = 2;
-      #       };
-      #     }
-      #   ];
-      #   lualine_b = [ { name = "branch"; } ];
-      #   lualine_c = [ { name = "diagnostic"; } ];
-      #   lualine_x = [ ];
-      #   lualine_y = [ ];
-      #   lualine_z = [ { name = "location"; } ];
-      # };
-      # options = {
-      #   globalstatus = true;
-      #   component_separators.left = "";
-      #   component_separators.right = "";
-      #   section_separators.left = "";
-      #   section_separators.right = "";
-      #   always_divide_middle = false;
-      #   icons_enabled = false;
-      #   ignore_focus = [ "txt" ];
-      # };
-      # extensions = [
-      #   "oil"
-      #   "man"
-      # ];
-      # };
     };
     telescope.enable = true;
     oil.enable = true;
