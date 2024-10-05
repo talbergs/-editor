@@ -30,6 +30,51 @@
   };
 
   config.keymaps = [
+    # DAP
+
+    {
+      key = "<leader>du";
+      action = ":lua require('dapui').toggle()<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>do";
+      action = ":lua require'dap'.step_out()<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>di";
+      action = ":lua require'dap'.step_into()<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>dd";
+      action = ":lua require'dap'.step_over()<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>dc";
+      action = ":lua require'dap'.continue()<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>dB";
+      action = ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>db";
+      action = ":lua require'dap'.toggle_breakpoint()<cr>";
+      mode = [ "n" ];
+    }
+
+    # ---
     {
       key = "<leader>hp";
       action = ":Gitsigns preview_hunk<cr>";

@@ -24,12 +24,94 @@ let
     call SourceFileIfExists(".vim/vimrc.local")
     ]]
   '';
+  php-debug-adapter = pkgs.stdenv.mkDerivation {
+    name = "php-debug-adapter";
+    version = "1.33.1";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/xdebug/vscode-php-debug/releases/download/v1.33.1/php-debug-1.33.1.vsix";
+      sha256 = "sha256-oN9xhG8BkK/jLS9aRV4Ff+EHsLcWe60Z2GDlvgkh5HM=";
+    };
+
+    buildInputs = [ pkgs.unzip ];
+
+    phases = [
+      "unpackPhase"
+      "installPhase"
+    ];
+
+    unpackPhase = ''
+      mkdir -p $out/extracted
+      unzip $src -d $out/extracted
+    '';
+
+    installPhase = ''
+      mkdir -p $out/bin
+      echo '#!/bin/sh' > $out/bin/php-debug-adapter
+      echo 'export LD_LIBRARY_PATH=$out/extracted' >> $out/bin/php-debug-adapter
+      echo 'exec ${pkgs.nodejs}/bin/node ${placeholder "out"}/extracted/extension/out/phpDebug.js "$@"' >> $out/bin/php-debug-adapter
+      chmod +x "$out/bin/php-debug-adapter"
+    '';
+  };
+
+  php_env = pkgs.php.buildEnv {
+    extensions = (
+      { enabled, all }:
+      enabled
+      ++ (with all; [
+        xdebug
+        spx
+      ])
+    );
+    extraConfig = ''
+      xdebug.start_with_request = yes
+      xdebug.client_host = localhost
+      xdebug.mode = develop,debug
+      xdebug.discover_client_host = 1
+    '';
+  };
 in
 {
+  config.extraPackages = [ php-debug-adapter ];
   config.extraConfigLua = concatLines [
     user_lua
   ];
   config.plugins = {
+    dap.enable = true;
+
+    dap.adapters.executables.php = {
+      command = "${php-debug-adapter}/bin/php-debug-adapter";
+    };
+
+    dap.extensions.dap-ui.enable = true;
+    dap.extensions.dap-virtual-text.enable = true;
+    dap.configurations.php = [
+
+      {
+        name = "run current script";
+        type = "php";
+        request = "launch";
+        port = 9003;
+        cwd = "\${fileDirname}";
+        program = "\${file}";
+        runtimeExecutable = "${php_env}/bin/php";
+      }
+
+      {
+        name = "main";
+        type = "php";
+        request = "launch";
+        port = 9003;
+      }
+
+      {
+        name = "listen for Xdebug local";
+        type = "php";
+        request = "launch";
+        port = 9003;
+      }
+    ];
+
     lsplens.enable = true;
     lsplens.setup = ''
       require("lsp-lens").setup({})
@@ -131,7 +213,7 @@ in
     };
     navic.enable = true;
     wtf.enable = true;
-    sidebar.enable = true;
+    sidebar.enable = false;
     sidebar.setup = ''
       local sidebar = require("sidebar-nvim")
       local opts = {open = true}
