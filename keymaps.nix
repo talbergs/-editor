@@ -39,6 +39,30 @@
     }
 
     {
+      key = "<leader>dws";
+      action = ":lua require('dap.ui.widgets').centered_float(require('dap.ui.widgets').scopes)<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>dwf";
+      action = ":lua require('dap.ui.widgets').centered_float(require('dap.ui.widgets').frames)<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>dH";
+      action = ":lua require'dap.ui.widgets'.preview()<cr>";
+      mode = [ "n" ];
+    }
+
+    {
+      key = "<leader>dh";
+      action = ":lua require'dap.ui.widgets'.hover()<cr>";
+      mode = [ "n" ];
+    }
+
+    {
       key = "<leader>do";
       action = ":lua require'dap'.step_out()<cr>";
       mode = [ "n" ];
