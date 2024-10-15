@@ -1,44 +1,27 @@
-## https://github.com/desdic/macrothis.nvim
+# # https://github.com/desdic/macrothis.nvim
 ## https://github.com/ofirgall/open.nvim
 ## https://github.com/rebelot/heirline.nvim
 # https://en.wikipedia.org/wiki/Ada_(programming_language)
 # https://github.com/jmbuhr/otter.nvim
-{
-  pkgs,
-  lib,
-  config,
-  helpers,
-  ...
-}:
+{ pkgs, lib, config, helpers, ... }:
 with lib;
 let
   user_lua = ''
-    vim.cmd[[
-    function! SourceFileIfExists(filepath) abort
-        try
-            execute "source " . a:filepath
-        catch
-        endtry
-    endfunction
-
-    call SourceFileIfExists(".vim/vimrc.local")
-    ]]
+    vim.filetype.add({pattern = {['.*%.js%.php'] = 'jsphp'}})
   '';
   php-debug-adapter = pkgs.stdenv.mkDerivation {
     name = "php-debug-adapter";
     version = "1.33.1";
 
     src = pkgs.fetchurl {
-      url = "https://github.com/xdebug/vscode-php-debug/releases/download/v1.33.1/php-debug-1.33.1.vsix";
+      url =
+        "https://github.com/xdebug/vscode-php-debug/releases/download/v1.33.1/php-debug-1.33.1.vsix";
       sha256 = "sha256-oN9xhG8BkK/jLS9aRV4Ff+EHsLcWe60Z2GDlvgkh5HM=";
     };
 
     buildInputs = [ pkgs.unzip ];
 
-    phases = [
-      "unpackPhase"
-      "installPhase"
-    ];
+    phases = [ "unpackPhase" "installPhase" ];
 
     unpackPhase = ''
       mkdir -p $out/extracted
@@ -49,20 +32,15 @@ let
       mkdir -p $out/bin
       echo '#!/bin/sh' > $out/bin/php-debug-adapter
       echo 'export LD_LIBRARY_PATH=$out/extracted' >> $out/bin/php-debug-adapter
-      echo 'exec ${pkgs.nodejs}/bin/node ${placeholder "out"}/extracted/extension/out/phpDebug.js "$@"' >> $out/bin/php-debug-adapter
+      echo 'exec ${pkgs.nodejs}/bin/node ${
+        placeholder "out"
+      }/extracted/extension/out/phpDebug.js "$@"' >> $out/bin/php-debug-adapter
       chmod +x "$out/bin/php-debug-adapter"
     '';
   };
 
   php_env = pkgs.php.buildEnv {
-    extensions = (
-      { enabled, all }:
-      enabled
-      ++ (with all; [
-        xdebug
-        spx
-      ])
-    );
+    extensions = ({ enabled, all }: enabled ++ (with all; [ xdebug spx ]));
     extraConfig = ''
       xdebug.start_with_request = yes
       xdebug.client_host = localhost
@@ -70,12 +48,9 @@ let
       xdebug.discover_client_host = 1
     '';
   };
-in
-{
+in {
   config.extraPackages = [ php-debug-adapter ];
-  config.extraConfigLua = concatLines [
-    user_lua
-  ];
+  config.extraConfigLua = concatLines [ user_lua ];
   config.plugins = {
     dap.enable = true;
 
@@ -116,6 +91,8 @@ in
     lsplens.setup = ''
       require("lsp-lens").setup({})
     '';
+    which-key.enable = true;
+    which-key.settings.delay = 3000;
     phpactor.enable = false;
     phpactor.setup = ''
       require("phpactor").setup({
