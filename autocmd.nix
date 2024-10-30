@@ -21,11 +21,27 @@
     }
     {
       event = "FileType";
+      pattern = "javascript";
+      command = ''
+        setl noexpandtab
+        setl tabstop=4
+        setl shiftwidth=4
+      '';
+      # callback.__raw = ''
+      #   function() vim.cmd([[
+      #     setl noexpandtab
+      #     setl ts=2
+      #     setl sw=2
+      #   ]] end
+      # '';
+    }
+    {
+      event = "FileType";
       pattern = "php";
       command = ''
         setl noexpandtab
-        setl tabstop=2
-        setl shiftwidth=2
+        setl tabstop=4
+        setl shiftwidth=4
       '';
       # callback.__raw = ''
       #   function() vim.cmd([[
