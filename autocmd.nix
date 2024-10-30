@@ -2,13 +2,13 @@
 {
 
   autoCmd = [
-    {
-      event = "FileType";
-      pattern = "nix";
-      callback = {
-        __raw = "function() vim.cmd('FormatOnSave') end";
-      };
-    }
+    # {
+    #   event = "FileType";
+    #   pattern = "nix";
+    #   callback = {
+    #     __raw = "function() vim.cmd('FormatOnSave') end";
+    #   };
+    # }
     {
       event = "TermEnter";
       pattern = "*";
@@ -50,6 +50,13 @@
       #     setl sw=2
       #   ]] end
       # '';
+    }
+    {
+      event = "FileType";
+      pattern = "php";
+      command = ''
+        TSBufEnable highlight
+      '';
     }
   ];
 
