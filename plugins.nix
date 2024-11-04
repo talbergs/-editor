@@ -203,7 +203,7 @@ in
         handlers = { };
       };
       servers.zls.enable = true;
-      servers.tsserver.enable = true;
+      servers.ts_ls.enable = true;
       servers.terraformls.enable = true;
       servers.cssls.enable = true;
       servers.dockerls.enable = true;
