@@ -66,6 +66,7 @@ in
   config.extraPackages = [ php-debug-adapter ];
   config.extraConfigLua = concatLines [ user_lua ];
   config.plugins = {
+    web-devicons.enable = true;
     dap.enable = true;
 
     dap.adapters.executables.php = {
@@ -197,6 +198,7 @@ in
       enable = true;
       servers.bashls.enable = true;
       servers.intelephense.enable = true;
+      servers.intelephense.package = pkgs.nodePackages.intelephense;
       servers.intelephense.extraOptions = {
         # :help vim.lsp.start_client
         init_options.licenceKey = "008RLZPEP6YHQ1P";
@@ -210,7 +212,7 @@ in
       servers.html.enable = true;
       servers.jsonls.enable = true;
       servers.nixd.enable = true;
-      servers.nil-ls.enable = true;
+      servers.nil_ls.enable = true;
       servers.pyright.enable = true;
     };
     navic.enable = true;
