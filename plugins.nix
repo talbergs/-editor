@@ -105,7 +105,7 @@ in
     lsplens.enable = true;
     lsplens.setup = ''
       require'lsp-lens'.setup({
-        enable = true,
+        enable = false,
         include_declaration = true,
         sections = {
           definition = false,
