@@ -36,24 +36,17 @@
       # '';
     }
     {
-      event = "FileType";
-      pattern = "php";
+      event = "BufEnter";
+      pattern = "*/zabbix/*";
       command = ''
         setl noexpandtab
         setl tabstop=4
         setl shiftwidth=4
       '';
-      # callback.__raw = ''
-      #   function() vim.cmd([[
-      #     setl noexpandtab
-      #     setl ts=2
-      #     setl sw=2
-      #   ]] end
-      # '';
     }
     {
       event = "FileType";
-      pattern = "php";
+      pattern = "*";
       command = ''
         TSBufEnable highlight
       '';
