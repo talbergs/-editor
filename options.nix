@@ -30,6 +30,7 @@
   };
 
   config.opts = {
+    modelineexpr = true;
     sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize";
     number = true;
 
