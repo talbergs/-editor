@@ -59,7 +59,7 @@
     listchars = "space:⋅,trail:•,tab:˖ ,nbsp:⦸,extends:»,precedes:«,eol:↵";
 
     updatetime = 50;
-    colorcolumn = "80";
+    colorcolumn = 0;
     timeout = false;
     winbar = "%f";
   };
