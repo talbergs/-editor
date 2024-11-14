@@ -106,6 +106,12 @@
     }
 
     {
+      key = "<leader>hr";
+      action = ":Gitsigns reset_hunk<cr>";
+      mode = [ "n" ];
+    }
+
+    {
       key = "<leader>w";
       action = ":write<cr>";
       mode = [ "n" ];

@@ -46,7 +46,9 @@ in
   # WinBar.ctermbg = "#AAEEDD";
   # WinBar.link = "DiffDelete";
   # };
-  config.colorscheme = "peachpuff";
+  config.colorscheme = "habamax";
+  # config.colorscheme = "default";
+  # config.colorscheme = "peachpuff";
   config.match = {
     ExtraWhitespace = "\\s\\+$";
   };
