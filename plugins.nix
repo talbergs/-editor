@@ -237,6 +237,11 @@ in
       local sidebar = require("sidebar-nvim")
       local opts = {open = true}
       sidebar.setup(opts)'';
+    other.enable = false;
+    other.setup = ''
+      local other = require("other-nvim")
+      local opts = {open = true}
+      other.setup(opts)'';
     fidget.enable = true;
     navbuddy.enable = true;
     treesitter-context.enable = true;
