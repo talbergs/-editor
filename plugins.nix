@@ -213,6 +213,7 @@ in
       enable = true;
       servers.bashls.enable = true;
       servers.intelephense.enable = true;
+      servers.ols.enable = true;
       servers.intelephense.package = pkgs.nodePackages.intelephense;
       servers.intelephense.extraOptions = {
         # :help vim.lsp.start_client
