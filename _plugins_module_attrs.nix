@@ -9,7 +9,6 @@ with lib;
         genAttrs
           [
             "sidebar"
-            "other"
             "quicker"
             "macros_librarian"
             "tabby"
@@ -27,19 +26,6 @@ with lib;
     { lib, config, ... }:
     with lib;
     let
-
-      # Open alternative files for the current buffer.
-      other = pkgs.vimUtils.buildVimPlugin {
-        name = "nvim-other";
-        src = pkgs.fetchFromGitHub {
-          owner = "other-nvim";
-          repo = "other.nvim";
-          rev = "5695712eef6288fff667343c4ae77c54911bdb1b";
-          hash = "sha256-TCj5TUtEgTjT0WBR8usCcWT+b+w8ac+M6KAfMxIKItw=";
-        };
-      };
-      other_lua = if config.plugins.other.enable then config.plugins.other.setup else "";
-
 
       # Improved styling - including syntax highlighting of grep results.
       # Show context lines - easily view lines above and below the quickfix results.
@@ -120,7 +106,6 @@ with lib;
       extraConfigLua = concatLines [
         quicker_lua
         sidebar_lua
-        other_lua
         macros_librarian_lua
         tabby_lua
         phpactor_lua
@@ -128,7 +113,6 @@ with lib;
       ];
       extraPlugins = [
         quicker
-        other
         macros_librarian
         tabby
         phpactor
