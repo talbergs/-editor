@@ -335,7 +335,10 @@ in
                 path = 2,
                 symbols = {},
                 color = function(section)
-                  return { fg = vim.bo.modified and '#aa3355' or '#33aa88' }
+                  return {
+                    fg = vim.bo.modified and '#aa3355' or '#3ab1aa',
+                    bg = '#3a3a3a',
+                  }
                 end,
                 on_click = function (nr, btn, mod)
                 -- 11c open in new tab
