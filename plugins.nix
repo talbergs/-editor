@@ -380,6 +380,12 @@ in
       };
     };
     telescope.enable = true;
+    telescope.settings = {
+      file_ignore_patterns = [
+        "^locale/"
+        "^.git/"
+      ];
+    };
     oil.enable = true;
     gitsigns.enable = true;
     tabby.enable = true;
