@@ -42,8 +42,7 @@ vim.pack.add({
   "https://github.com/SmiteshP/nvim-navbuddy",
   "https://github.com/piersolenski/wtf.nvim", -- Diagnostics
   "https://github.com/rhysd/committia.vim",
-  "https://github.com/sslivkoff/quicker.vim",
-  "https://github.com/desdic/nvim-macros",
+  "https://github.com/stevearc/quicker.nvim",
 
   -- Dependencies
   "https://github.com/MunifTanjim/nui.nvim",
@@ -70,7 +69,6 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 vim.opt.scrolloff = 2
-vim.opt.signcolumn = "3-9" -- from globalOpts in options.nix
 vim.opt.foldenable = false
 vim.opt.listchars = "space:⋅,trail:•,tab:˖ ,nbsp:⦸,extends:»,precedes:«,eol:↵"
 vim.opt.updatetime = 50
@@ -114,6 +112,8 @@ vim.api.nvim_create_autocmd("FileType", {
 require("gemini").setup({
   cmds = { "gemini", "qwen" }, -- Use both
 })
+
+require("oil").setup({})
 
 -- Keymaps from keymaps_reference.md
 

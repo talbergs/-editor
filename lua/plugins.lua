@@ -129,6 +129,36 @@ return {
         {
             'https://github.com/nvim-telescope/telescope.nvim',
             dependencies = { 'nvim-lua/plenary.nvim' },
+            config = function()
+                require('telescope').setup({})
+            end,
+        },
+        {
+            'hrsh7th/nvim-cmp',
+            event = 'InsertEnter',
+            dependencies = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path' },
+            config = function()
+                require('cmp').setup({})
+            end,
+        },
+        {
+            'mfussenegger/nvim-dap',
+            config = function()
+                require('dap').setup({})
+            end,
+        },
+        {
+            'rcarriga/nvim-dap-ui',
+            dependencies = {'mfussenegger/nvim-dap'},
+            config = function()
+                require('dapui').setup({})
+            end,
+        },
+        {
+            'stevearc/oil.nvim',
+            config = function()
+                require('oil').setup({})
+            end,
         },
         {
             "GCBallesteros/NotebookNavigator.nvim",
