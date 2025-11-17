@@ -50,6 +50,66 @@ vim.pack.add({
   "https://github.com/nvim-lua/plenary.nvim",
 })
 
+-- Options from options.nix
+
+-- Global options
+vim.opt.modelineexpr = true
+vim.opt.sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize"
+vim.opt.number = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.foldmethod = "indent"
+vim.opt.smarttab = true
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.opt.showmode = false
+vim.opt.wrap = false
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undofile = true
+vim.opt.scrolloff = 2
+vim.opt.signcolumn = "3-9" -- from globalOpts in options.nix
+vim.opt.foldenable = false
+vim.opt.listchars = "space:⋅,trail:•,tab:˖ ,nbsp:⦸,extends:»,precedes:«,eol:↵"
+vim.opt.updatetime = 50
+vim.opt.colorcolumn = "0"
+vim.opt.timeout = false
+vim.opt.winbar = "%f"
+
+-- Ensure undodir exists
+local undodir = "/tmp/nixvim/undodir"
+if vim.fn.isdirectory(undodir) == 0 then
+  vim.fn.mkdir(undodir, "p")
+end
+vim.opt.undodir = undodir
+
+-- Window-local options
+vim.wo.wrap = false
+
+-- Filetype-specific options
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "yaml",
+  callback = function()
+    vim.bo.expandtab = true
+    vim.bo.shiftwidth = 2
+    vim.bo.tabstop = 2
+    vim.bo.commentstring = "#%s"
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "nix",
+  callback = function()
+    vim.bo.expandtab = true
+    vim.bo.shiftwidth = 2
+    vim.bo.tabstop = 2
+    vim.bo.foldmethod = "indent"
+    vim.bo.commentstring = "#%s"
+  end,
+})
+
 -- :Gemini
 require("gemini").setup({
   cmds = { "gemini", "qwen" }, -- Use both
