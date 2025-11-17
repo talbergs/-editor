@@ -212,6 +212,7 @@ in
     lsp = {
       enable = true;
       servers.bashls.enable = true;
+      servers.gopls.enable = true;
       servers.intelephense.enable = true;
       servers.ols.enable = true;
       servers.intelephense.package = pkgs.nodePackages.intelephense;

@@ -1,3 +1,4 @@
+# This file defines Neovim keybindings using Nix, configuring various mappings for LSP, CMP, DAP, Gitsigns, Telescope, and general navigation.
 { pkgs, config, ... }:
 {
   config.globals.mapleader = " ";
