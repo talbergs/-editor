@@ -1,12 +1,11 @@
+vim.cmd.colorscheme("habamax")
+
 vim.pack.add({
   -- LLM/AI Plugins
   "https://github.com/David-Kunz/gen.nvim",
   "https://github.com/Kurama622/llm.nvim",
   "https://github.com/gutsavgupta/nvim-gemini-companion",
 
-  -- UI & Appearance
-  "https://github.com/j-hui/fidget.nvim", -- Standalone UI for nvim-lsp progress
-  "https://github.com/nanozuki/tabby.nvim", -- Tabline
   "https://github.com/norcalli/nvim-colorizer.lua", -- Color highlighter
   "https://github.com/nvim-lualine/lualine.nvim", -- Statusline
   "https://github.com/nvim-tree/nvim-web-devicons", -- Icons
@@ -54,8 +53,16 @@ vim.pack.add({
   "https://github.com/nvim-lua/plenary.nvim",
 })
 
+require("treesitter-context").setup({
+    enable = false,
+    multiwindow = true,
+    line_numbers = true,
+})
+
 require("nvim-treesitter.configs").setup({
-    ensure_installed = "all",
+    ensure_installed = {"go", "lua", "python", "rust", "typescript", "yaml", "json", "nix",
+        "bash", "php", "html", "css", "javascript", "c", "cpp", "markdown",
+    },
     highlight = {
         enable = true,
     },
@@ -66,9 +73,8 @@ vim.pack.add({
 })
 require("quicker").setup()
 
--- edit from quickfix list
 vim.pack.add({
-  "https://github.com/folke/which-key.nvim", -- Key binding hints
+  "https://github.com/folke/which-key.nvim",
 })
 require("which-key").setup({delay=3000})
 
@@ -138,18 +144,14 @@ require("gemini").setup({
 
 require("oil").setup({})
 
--- Setup gopls
-require("lspconfig").gopls.setup({
-  on_attach = on_attach,
-  settings = {
-    gopls = {
-      analyses = {
-        unusedparams = true,
-      },
-      staticcheck = true,
-    },
+vim.lsp.config.go = {
+  default_config = {
+    cmd = { "gopls" },
+    filetypes = { "go", "gomod" },
+    root_dir = require("lspconfig.util").root_pattern("go.work", "go.mod", ".git"),
+    settings = {},
   },
-})
+}
 
 -- Keymaps from keymaps_reference.md
 
@@ -159,9 +161,6 @@ vim.g.maplocalleader = " "
 -- LSP Buffer Keymaps
 -- To use these, add `on_attach = on_attach` to your lsp server setup.
 -- For example:
--- require('lspconfig').pylsp.setup({
---   on_attach = on_attach,
--- })
 local on_attach = function(client, bufnr)
   local function map(mode, lhs, rhs, opts)
     opts = vim.tbl_extend("force", { noremap = true, silent = true }, opts or {})
@@ -349,7 +348,7 @@ map("n", "<cr>", "@@", { desc = "Macro: Execute macro" })
 -- Toggle
 map("n", "<f1>", ":set spell!<cr>", { silent = true, desc = "Toggle: Spell" })
 map("n", "<f2>", ":set list!<cr>", { silent = true, desc = "Toggle: List" })
-map("n", "<f3>", ":TSContextToggle<cr>", { silent = true, desc = "Toggle: Treesitter Context" })
+map("n", "<f3>", ":TSContext toggle<cr>", { silent = true, desc = "Toggle: Treesitter Context" })
 
 -- Scroll
 map("n", "<c-y>", "2<c-y>", { desc = "Scroll: Up" })
