@@ -23,6 +23,7 @@ vim.pack.add({
   "https://github.com/stevearc/oil.nvim", -- File manager
   "https://github.com/tpope/vim-commentary", -- Commenting
   "https://github.com/tpope/vim-fugitive", -- Git wrapper
+  "https://github.com/ray-x/go.nvim", -- Go plugin
 
   -- Completion
   "https://github.com/hrsh7th/nvim-cmp", -- Completion engine
@@ -108,12 +109,28 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- edit from quickfix list
+require("quicker").setup();
+
 -- :Gemini
 require("gemini").setup({
   cmds = { "gemini", "qwen" }, -- Use both
 })
 
 require("oil").setup({})
+
+-- Setup gopls
+require("lspconfig").gopls.setup({
+  on_attach = on_attach,
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+      },
+      staticcheck = true,
+    },
+  },
+})
 
 -- Keymaps from keymaps_reference.md
 

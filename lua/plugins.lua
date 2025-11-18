@@ -34,39 +34,18 @@ return {
             event = "InsertEnter",
             config = function()
                 require("copilot").setup({
-                    -- panel = {
-                    --     enabled = true,
-                    --     auto_refresh = true,
-                    --     keymap = {
-                    --         jump_prev = "[[",
-                    --         jump_next = "]]",
-                    --         accept = "<CR>",
-                    --         refresh = "gr",
-                    --         open = "<M-CR>"
-                    --     },
-                    --     layout = {
-                    --         position = "bottom", -- | top | left | right
-                    --         ratio = 0.4
-                    --     },
-                    -- },
-                    -- suggestion = {
-                    --     enabled = true,
-                    --     auto_trigger = true,
-                    --     debounce = 75,
-                    --     keymap = {
-                    --         accept = "<M-W>",
-                    --         accept_word = false,
-                    --         accept_line = true,
-                    --         next = "<M-D>",
-                    --         prev = "<M-U>",
-                    --         dismiss = "<M-]>",
-                    --     },
-                    -- },
-                    -- filetypes = {
-                    --     help = false,
-                    -- },
-                    -- copilot_node_command = 'node', -- Node.js version must be > 18.x
-                    -- server_opts_overrides = {},
+                    suggestion = {
+                        enabled = true,
+                        auto_trigger = true,
+                        keymap = {
+                            accept = "<M-W>",
+                            accept_word = false,
+                            accept_line = true,
+                            next = "<M-D>",
+                            prev = "<M-U>",
+                            dismiss = "<M-]>",
+                        },
+                    },
                 })
             end
         },
@@ -136,11 +115,47 @@ return {
         {
             'hrsh7th/nvim-cmp',
             event = 'InsertEnter',
-            dependencies = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path' },
+            dependencies = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path', 'zbirenbaum/cmp-copilot' },
             config = function()
-                require('cmp').setup({})
+                local cmp = require('cmp')
+                cmp.setup({
+                    sources = cmp.config.sources({
+                        { name = 'copilot' },
+                        { name = 'nvim_lsp' },
+                        { name = 'buffer' },
+                        { name = 'path' },
+                    }),
+                    mapping = cmp.mapping.preset.insert({
+                        ['<C-Space>'] = cmp.mapping.complete(),
+                        ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+                        ['<C-d>'] = cmp.mapping.scroll_docs(4),
+                        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                        ['<Tab>'] = cmp.mapping(function(fallback)
+                            if cmp.visible() then
+                                cmp.select_next_item()
+                            elseif require("copilot.suggestion").is_visible() then
+                                require("copilot.suggestion").accept()
+                            else
+                                fallback()
+                            end
+                        end, { "i", "s" }),
+                        ['<S-Tab>'] = cmp.mapping(function(fallback)
+                            if cmp.visible() then
+                                cmp.select_prev_item()
+                            else
+                                fallback()
+                            end
+                        end, { "i", "s" }),
+                    }),
+                    snippet = {
+                        expand = function(args)
+                            require('luasnip').lsp_expand(args.body)
+                        end,
+                    },
+                })
             end,
         },
+        { 'zbirenbaum/cmp-copilot' },
         {
             'mfussenegger/nvim-dap',
             config = function()
