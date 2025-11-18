@@ -32,6 +32,8 @@ vim.pack.add({
   "https://github.com/hrsh7th/cmp-calc", -- Calculator source for nvim-cmp
   "https://github.com/L3MON4D3/LuaSnip", -- Snippet engine
   "https://github.com/saadparwaiz1/cmp_luasnip", -- Snippet source for nvim-cmp
+  "https://github.com/zbirenbaum/copilot.lua", -- Copilot completion
+  "https://github.com/zbirenbaum/copilot-cmp", -- Copilot source for nvim-cmp
 
   -- Debugging
   "https://github.com/mfussenegger/nvim-dap", -- Debug Adapter Protocol
@@ -50,6 +52,13 @@ vim.pack.add({
   -- Dependencies
   "https://github.com/MunifTanjim/nui.nvim",
   "https://github.com/nvim-lua/plenary.nvim",
+})
+
+require("nvim-treesitter.configs").setup({
+    ensure_installed = "all",
+    highlight = {
+        enable = true,
+    },
 })
 
 vim.pack.add({
@@ -211,6 +220,7 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
     { name = "luasnip" }, -- For snippets
+    { name = "copilot" }, -- Copilot source
     { name = "buffer" },
     { name = "path" },
     { name = "calc" },
@@ -228,11 +238,29 @@ cmp.setup({
         buffer = "[Buffer]",
         path = "[Path]",
         calc = "[Calc]",
+        copilot = "[Copilot]",
       })[entry.source.name]
       return vim_item
     end,
   },
 })
+
+-- Copilot setup
+require("copilot").setup({
+  suggestion = {
+    auto_trigger = true,
+    keymap = {
+      accept = "<C-e>",
+      accept_word = false,
+      accept_line = false,
+      next = "<M-]>",
+      prev = "<M-[>",
+      dismiss = "<C-]>",
+    },
+  },
+})
+
+require("copilot_cmp").setup()
 
 -- General Keymaps
 local map = vim.keymap.set
