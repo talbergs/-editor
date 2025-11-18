@@ -10,7 +10,6 @@ vim.pack.add({
   "https://github.com/norcalli/nvim-colorizer.lua", -- Color highlighter
   "https://github.com/nvim-lualine/lualine.nvim", -- Statusline
   "https://github.com/nvim-tree/nvim-web-devicons", -- Icons
-  "https://github.com/folke/which-key.nvim", -- Key binding hints
 
   -- Core Functionality
   "https://github.com/echasnovski/mini.nvim", -- Library of minimal plugins
@@ -47,12 +46,22 @@ vim.pack.add({
   "https://github.com/SmiteshP/nvim-navbuddy",
   "https://github.com/piersolenski/wtf.nvim", -- Diagnostics
   "https://github.com/rhysd/committia.vim",
-  "https://github.com/stevearc/quicker.nvim",
 
   -- Dependencies
   "https://github.com/MunifTanjim/nui.nvim",
   "https://github.com/nvim-lua/plenary.nvim",
 })
+
+vim.pack.add({
+    "https://github.com/stevearc/quicker.nvim",
+})
+require("quicker").setup()
+
+-- edit from quickfix list
+vim.pack.add({
+  "https://github.com/folke/which-key.nvim", -- Key binding hints
+})
+require("which-key").setup({delay=3000})
 
 -- Options from options.nix
 
@@ -112,9 +121,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.commentstring = "#%s"
   end,
 })
-
--- edit from quickfix list
-require("quicker").setup();
 
 -- :Gemini
 require("gemini").setup({
