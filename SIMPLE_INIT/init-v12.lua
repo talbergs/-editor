@@ -29,6 +29,10 @@ vim.pack.add({
   "https://github.com/hrsh7th/nvim-cmp", -- Completion engine
   "https://github.com/hrsh7th/cmp-nvim-lsp", -- LSP source for nvim-cmp
   "https://github.com/hrsh7th/cmp-path", -- Path source for nvim-cmp
+  "https://github.com/hrsh7th/cmp-buffer", -- Buffer source for nvim-cmp
+  "https://github.com/hrsh7th/cmp-calc", -- Calculator source for nvim-cmp
+  "https://github.com/L3MON4D3/LuaSnip", -- Snippet engine
+  "https://github.com/saadparwaiz1/cmp_luasnip", -- Snippet source for nvim-cmp
 
   -- Debugging
   "https://github.com/mfussenegger/nvim-dap", -- Debug Adapter Protocol
@@ -164,19 +168,65 @@ end
 -- Completion (CMP) Keymaps
 -- These mappings should be configured within the `nvim-cmp` setup.
 -- For example:
--- local cmp = require'cmp'
--- cmp.setup({
---   mapping = cmp.mapping.preset.insert({
---     ['<c-w>'] = cmp.mapping.complete(),
---     ['<c-q>'] = cmp.mapping.close(),
---     ['<c-d>'] = cmp.mapping.scroll_docs(4),
---     ['<c-u>'] = cmp.mapping.scroll_docs(-4),
---     ['<c-p>'] = cmp.mapping.select_prev_item(),
---     ['<c-n>'] = cmp.mapping.select_next_item(),
---     -- Other mappings...
---   }),
---   -- Other cmp settings...
--- })
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.abort(),
+    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+  }),
+  sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "luasnip" }, -- For snippets
+    { name = "buffer" },
+    { name = "path" },
+    { name = "calc" },
+  }),
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+  formatting = {
+    fields = { "kind", "abbr", "menu" },
+    format = function(entry, vim_item)
+      vim_item.menu = ({
+        nvim_lsp = "[LSP]",
+        luasnip = "[Snippet]",
+        buffer = "[Buffer]",
+        path = "[Path]",
+        calc = "[Calc]",
+      })[entry.source.name]
+      return vim_item
+    end,
+  },
+})
 
 -- General Keymaps
 local map = vim.keymap.set
