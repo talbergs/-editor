@@ -1,3 +1,60 @@
+-- vim: foldmethod=marker
+-- {{ v0.12.0 lsp setup 101 }} {{{
+vim.pack.add { -- Neovim init file using built-in package management (v0.12+)
+	{ src = 'https://github.com/neovim/nvim-lspconfig' }, -- still using this
+	{ src = 'https://github.com/mason-org/mason.nvim' },
+	{ src = 'https://github.com/mason-org/mason-lspconfig.nvim' },
+	{ src = 'https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim' },
+}
+
+local ensure_installed = {
+    "lua_ls",
+    "stylua",
+    "gopls",
+    -- "intelephense",
+    -- "phpcs",
+    -- "phpcbf",
+    -- "pyright",
+}
+
+-- vim.lsp.config.go = {
+--   default_config = {
+--     cmd = { "gopls" },
+--     filetypes = { "go", "gomod" },
+--     root_dir = require("lspconfig.util").root_pattern("go.work", "go.mod", ".git"),
+--     settings = {},
+--   },
+-- }
+
+require('mason').setup()
+require('mason-lspconfig').setup()
+require('mason-tool-installer').setup({
+	ensure_installed = ensure_installed,
+})
+
+vim.lsp.config('lua_ls', {
+	settings = {
+		Lua = {
+			runtime = {
+				version = 'LuaJIT',
+			},
+			diagnostics = {
+				globals = {
+					'vim',
+					'require'
+				},
+			},
+			workspace = {
+				library = vim.api.nvim_get_runtime_file("", true),
+			},
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
+})
+-- }}}
+
 vim.cmd.colorscheme("habamax")
 
 vim.pack.add({
@@ -14,7 +71,6 @@ vim.pack.add({
   "https://github.com/echasnovski/mini.nvim", -- Library of minimal plugins
   "https://github.com/lewis6991/gitsigns.nvim", -- Git decorations
   "https://github.com/mbbill/undotree", -- Undo history visualizer
-  "https://github.com/neovim/nvim-lspconfig", -- LSP configuration
   "https://github.com/nvim-treesitter/nvim-treesitter", -- Treesitter
   "https://github.com/nvim-treesitter/nvim-treesitter-context", -- Treesitter context
   "https://github.com/stevearc/conform.nvim", -- Formatter
@@ -78,9 +134,7 @@ vim.pack.add({
 })
 require("which-key").setup({delay=3000})
 
--- Options from options.nix
-
--- Global options
+-- {{ Global options }} {{{
 vim.opt.modelineexpr = true
 vim.opt.sessionoptions = "curdir,folds,globals,help,tabpages,terminal,winsize"
 vim.opt.number = true
@@ -114,8 +168,9 @@ vim.opt.undodir = undodir
 
 -- Window-local options
 vim.wo.wrap = false
+-- }}}
 
--- Filetype-specific options
+-- {{ Filetype-specific settings }} {{{
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "yaml",
   callback = function()
@@ -136,6 +191,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.commentstring = "#%s"
   end,
 })
+-- }}}
 
 -- :Gemini
 require("gemini").setup({
@@ -144,14 +200,6 @@ require("gemini").setup({
 
 require("oil").setup({})
 
-vim.lsp.config.go = {
-  default_config = {
-    cmd = { "gopls" },
-    filetypes = { "go", "gomod" },
-    root_dir = require("lspconfig.util").root_pattern("go.work", "go.mod", ".git"),
-    settings = {},
-  },
-}
 
 -- Keymaps from keymaps_reference.md
 
