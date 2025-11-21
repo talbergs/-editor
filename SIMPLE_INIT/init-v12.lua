@@ -11,10 +11,14 @@ local ensure_installed = {
     "lua_ls",
     "stylua",
     "gopls",
-    -- "intelephense",
-    -- "phpcs",
-    -- "phpcbf",
-    -- "pyright",
+    "intelephense",
+    "phpcs",
+    "phpcbf",
+    "pyright",
+    "html-lsp",
+    "css-lsp",
+    -- "tsserver",
+    "rust_analyzer",
 }
 
 -- vim.lsp.config.go = {
@@ -170,6 +174,40 @@ vim.opt.undodir = undodir
 vim.wo.wrap = false
 -- }}}
 
+-- {{ LSP document highlight autocmds }} {{{
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+      -- check if lsp client is attached to buffer and it supports documentHighlight
+      local clients = vim.lsp.get_clients()
+      for _, client in ipairs(clients) do
+          if client.server_capabilities.documentHighlightProvider then
+              vim.lsp.buf.document_highlight()
+              return
+          end
+      end
+  end,
+})
+
+vim.api.nvim_create_autocmd("CursorHoldI", {
+  callback = function()
+    vim.lsp.buf.document_highlight()
+  end,
+})
+
+vim.api.nvim_create_autocmd("CursorMoved", {
+  callback = function()
+    vim.lsp.buf.clear_references()
+  end,
+})
+-- }}}
+--
+-- LspReferenceWrite extmark highlight will signify the write action
+-- LspReferenceRead extmark highlight will signify the read action
+-- better - make the current color more dark or light and make italic or bold
+vim.cmd.highlight("LspReferenceRead guifg=#FFFFAA gui=italic")
+vim.cmd.highlight("LspReferenceText guifg=#FFFFAA gui=italic")
+vim.cmd.highlight("LspReferenceWrite guifg=#AAFFAA gui=bold")
+
 -- {{ Filetype-specific settings }} {{{
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "yaml",
@@ -178,6 +216,20 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.shiftwidth = 2
     vim.bo.tabstop = 2
     vim.bo.commentstring = "#%s"
+  end,
+})
+
+-- if working on files within git who's remote URL contains "zabbix", set specific settings:
+-- - set tabstop and tablshift to 4 and not expandtab
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    local git_remote = vim.fn.systemlist("git config --get remote.origin.url")[1] or ""
+    if string.find(git_remote, "zabbix") then
+      vim.bo.expandtab = false
+      vim.bo.shiftwidth = 4
+      vim.bo.tabstop = 4
+    end
   end,
 })
 
@@ -209,23 +261,23 @@ vim.g.maplocalleader = " "
 -- LSP Buffer Keymaps
 -- To use these, add `on_attach = on_attach` to your lsp server setup.
 -- For example:
-local on_attach = function(client, bufnr)
-  local function map(mode, lhs, rhs, opts)
-    opts = vim.tbl_extend("force", { noremap = true, silent = true }, opts or {})
-    vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
-  end
+-- local on_attach = function(client, bufnr)
+--   local function map(mode, lhs, rhs, opts)
+--     opts = vim.tbl_extend("force", { noremap = true, silent = true }, opts or {})
+--     vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+--   end
 
-  map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "LSP: Hover" })
-  map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "LSP: References" })
-  -- gH: clear_references - not a standard LSP function. Using nohlsearch to clear highlights.
-  map("n", "gH", "<cmd>nohlsearch<cr>", { desc = "LSP: Clear References/Highlights" })
-  map("n", "gh", "<cmd>lua vim.lsp.buf.document_highlight()<cr>", { desc = "LSP: Document Highlight" })
-  map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "LSP: Definition" })
-  map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { desc = "LSP: Implementation" })
-  map("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { desc = "LSP: Type Definition" })
-  map("n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "LSP: Code Action" })
-  map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "LSP: Rename" })
-end
+--   map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "LSP: Hover" })
+--   map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "LSP: References" })
+--   -- gH: clear_references - not a standard LSP function. Using nohlsearch to clear highlights.
+--   map("n", "gH", "<cmd>nohlsearch<cr>", { desc = "LSP: Clear References/Highlights" })
+--   map("n", "gh", "<cmd>lua vim.lsp.buf.document_highlight()<cr>", { desc = "LSP: Document Highlight" })
+--   map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "LSP: Definition" })
+--   map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { desc = "LSP: Implementation" })
+--   map("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { desc = "LSP: Type Definition" })
+--   map("n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "LSP: Code Action" })
+--   map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "LSP: Rename" })
+-- end
 
 -- Completion (CMP) Keymaps
 -- These mappings should be configured within the `nvim-cmp` setup.
@@ -375,10 +427,11 @@ map("n", "<leader>t", ":Telescope lsp_document_symbols<cr>", { silent = true, de
 
 -- Diagnostics
 map("n", "[d", function()
-  vim.diagnostic.goto_prev()
+  vim.diagnostic.jump({ count = -1 })
 end, { desc = "Diagnostics: Previous" })
+
 map("n", "]d", function()
-  vim.diagnostic.goto_next()
+  vim.diagnostic.jump({ count = 1 })
 end, { desc = "Diagnostics: Next" })
 
 -- Navigation
