@@ -1,4 +1,9 @@
 -- vim: foldmethod=marker
+--
+-- TODO: mcp chromium-web-devtools integration 
+-- workflow: on Jira task press record, reproduce bug, stop recording, upload to Jira ticket
+--
+--
 -- {{ v0.12.0 lsp setup 101 }} {{{
 vim.pack.add { -- Neovim init file using built-in package management (v0.12+)
 	{ src = 'https://github.com/neovim/nvim-lspconfig' }, -- still using this
@@ -176,29 +181,38 @@ vim.wo.wrap = false
 
 -- {{ LSP document highlight autocmds }} {{{
 vim.api.nvim_create_autocmd("CursorHold", {
+  pattern = {'*.js', '*.php', '*.go', '*.lua'},
   callback = function()
       -- check if lsp client is attached to buffer and it supports documentHighlight
       local clients = vim.lsp.get_clients()
       for _, client in ipairs(clients) do
           if client.server_capabilities.documentHighlightProvider then
-              vim.lsp.buf.document_highlight()
-              return
+                  if vim._HL then
+                      return
+                  end
+
+                    ok, res = pcall(vim.lsp.buf.document_highlight)
+                    if not ok then
+                        return
+                    end
+                  -- add debounce
+                  vim.defer_fn(function()
+                      vim.lsp.buf.document_highlight()
+                  end, 1000)
           end
       end
   end,
 })
 
-vim.api.nvim_create_autocmd("CursorHoldI", {
-  callback = function()
-    vim.lsp.buf.document_highlight()
-  end,
-})
-
 vim.api.nvim_create_autocmd("CursorMoved", {
   callback = function()
+      if vim._HL == 1 then
+          return
+      end
     vim.lsp.buf.clear_references()
   end,
 })
+
 -- }}}
 --
 -- LspReferenceWrite extmark highlight will signify the write action
@@ -257,27 +271,6 @@ require("oil").setup({})
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
--- LSP Buffer Keymaps
--- To use these, add `on_attach = on_attach` to your lsp server setup.
--- For example:
--- local on_attach = function(client, bufnr)
---   local function map(mode, lhs, rhs, opts)
---     opts = vim.tbl_extend("force", { noremap = true, silent = true }, opts or {})
---     vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
---   end
-
---   map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "LSP: Hover" })
---   map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "LSP: References" })
---   -- gH: clear_references - not a standard LSP function. Using nohlsearch to clear highlights.
---   map("n", "gH", "<cmd>nohlsearch<cr>", { desc = "LSP: Clear References/Highlights" })
---   map("n", "gh", "<cmd>lua vim.lsp.buf.document_highlight()<cr>", { desc = "LSP: Document Highlight" })
---   map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "LSP: Definition" })
---   map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { desc = "LSP: Implementation" })
---   map("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { desc = "LSP: Type Definition" })
---   map("n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "LSP: Code Action" })
---   map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "LSP: Rename" })
--- end
 
 -- Completion (CMP) Keymaps
 -- These mappings should be configured within the `nvim-cmp` setup.
@@ -398,6 +391,22 @@ end, { desc = "DAP: Set Breakpoint with condition" })
 map("n", "<leader>db", function()
   require("dap").toggle_breakpoint()
 end, { desc = "DAP: Toggle Breakpoint" })
+
+-- map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "LSP: Hover" })
+vim.keymap.del("n", "grr") -- Unmap builtin go to references mapping.
+vim.keymap.del("n", "grt") -- Unmap builtin go to references mapping.
+vim.keymap.del("n", "gri") -- Unmap builtin go to references mapping.
+vim.keymap.del("n", "gra") -- Unmap builtin go to references mapping.
+vim.keymap.del("n", "grn") -- Unmap builtin go to references mapping.
+
+map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "LSP: References" })
+map("n", "gH", "<cmd>lua vim._HL = 1<cr>hj", { desc = "LSP: Clear References/Highlights" })
+map("n", "gh", "<cmd>lua vim.lsp.buf.document_highlight() ; vim._HL = 1<cr>", { desc = "LSP: Document Highlight" })
+-- map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "LSP: Definition" })
+map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { desc = "LSP: Implementation" })
+map("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { desc = "LSP: Type Definition" })
+map("n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "LSP: Code Action" })
+map("n", "<leader>r", "<cmd>lua vim.lsp.buf.rename()<cr>", { desc = "LSP: Rename" })
 
 -- Gitsigns
 map("n", "<leader>hp", ":Gitsigns preview_hunk<cr>", { silent = true, desc = "Gitsigns: Preview Hunk" })
