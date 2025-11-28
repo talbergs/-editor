@@ -96,8 +96,8 @@ vim.pack.add({
   "https://github.com/hrsh7th/cmp-calc", -- Calculator source for nvim-cmp
   "https://github.com/L3MON4D3/LuaSnip", -- Snippet engine
   "https://github.com/saadparwaiz1/cmp_luasnip", -- Snippet source for nvim-cmp
-  "https://github.com/zbirenbaum/copilot.lua", -- Copilot completion
-  "https://github.com/zbirenbaum/copilot-cmp", -- Copilot source for nvim-cmp
+  -- "https://github.com/zbirenbaum/copilot.lua", -- Copilot completion
+  -- "https://github.com/zbirenbaum/copilot-cmp", -- Copilot source for nvim-cmp
 
   -- Debugging
   "https://github.com/mfussenegger/nvim-dap", -- Debug Adapter Protocol
@@ -197,6 +197,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
                     end
                   -- add debounce
                   vim.defer_fn(function()
+                      print(99)
                       vim.lsp.buf.document_highlight()
                   end, 1000)
           end
@@ -312,7 +313,7 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
     { name = "luasnip" }, -- For snippets
-    { name = "copilot" }, -- Copilot source
+    -- { name = "copilot" }, -- Copilot source
     { name = "buffer" },
     { name = "path" },
     { name = "calc" },
@@ -330,7 +331,7 @@ cmp.setup({
         buffer = "[Buffer]",
         path = "[Path]",
         calc = "[Calc]",
-        copilot = "[Copilot]",
+        -- copilot = "[Copilot]",
       })[entry.source.name]
       return vim_item
     end,
@@ -338,21 +339,21 @@ cmp.setup({
 })
 
 -- Copilot setup
-require("copilot").setup({
-  suggestion = {
-    auto_trigger = true,
-    keymap = {
-      accept = "<C-e>",
-      accept_word = false,
-      accept_line = false,
-      next = "<M-]>",
-      prev = "<M-[>",
-      dismiss = "<C-]>",
-    },
-  },
-})
+-- require("copilot").setup({
+--   suggestion = {
+--     auto_trigger = true,
+--     keymap = {
+--       accept = "<C-e>",
+--       accept_word = false,
+--       accept_line = false,
+--       next = "<M-]>",
+--       prev = "<M-[>",
+--       dismiss = "<C-]>",
+--     },
+--   },
+-- })
 
-require("copilot_cmp").setup()
+-- require("copilot_cmp").setup()
 
 -- General Keymaps
 local map = vim.keymap.set
@@ -400,7 +401,7 @@ vim.keymap.del("n", "gra") -- Unmap builtin go to references mapping.
 vim.keymap.del("n", "grn") -- Unmap builtin go to references mapping.
 
 map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "LSP: References" })
-map("n", "gH", "<cmd>lua vim._HL = 1<cr>hj", { desc = "LSP: Clear References/Highlights" })
+map("n", "gH", "<cmd>vim.lsp.buf.clear_references()<cr>", { desc = "LSP: Clear References/Highlights" })
 map("n", "gh", "<cmd>lua vim.lsp.buf.document_highlight() ; vim._HL = 1<cr>", { desc = "LSP: Document Highlight" })
 -- map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "LSP: Definition" })
 map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { desc = "LSP: Implementation" })
