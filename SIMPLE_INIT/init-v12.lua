@@ -180,36 +180,35 @@ vim.wo.wrap = false
 -- }}}
 
 -- {{ LSP document highlight autocmds }} {{{
-vim.api.nvim_create_autocmd("CursorHold", {
+
+-- Delay LSP document highlight by 2.5 seconds after cursor stays
+local highlight_timer = nil
+
+vim.api.nvim_create_autocmd({"CursorHold"}, {
   pattern = {'*.js', '*.php', '*.go', '*.lua'},
   callback = function()
-      -- check if lsp client is attached to buffer and it supports documentHighlight
-      local clients = vim.lsp.get_clients()
-      for _, client in ipairs(clients) do
-          if client.server_capabilities.documentHighlightProvider then
-                  if vim._HL then
-                      return
-                  end
-
-                    ok, res = pcall(vim.lsp.buf.document_highlight)
-                    if not ok then
-                        return
-                    end
-                  -- add debounce
-                  vim.defer_fn(function()
-                      print(99)
-                      vim.lsp.buf.document_highlight()
-                  end, 1000)
-          end
+    local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+    for _, client in ipairs(clients) do
+      if client.server_capabilities.documentHighlightProvider then
+        if highlight_timer then
+          highlight_timer:stop()
+        end
+          highlight_timer = vim.defer_fn(function()
+            vim.lsp.buf.document_highlight()
+          end, 1500)
+        break
       end
+    end
   end,
 })
 
-vim.api.nvim_create_autocmd("CursorMoved", {
+vim.api.nvim_create_autocmd({"CursorMoved"}, {
+  pattern = {'*.js', '*.php', '*.go', '*.lua'},
   callback = function()
-      if vim._HL == 1 then
-          return
-      end
+    if highlight_timer then
+      highlight_timer:stop()
+      highlight_timer = nil
+    end
     vim.lsp.buf.clear_references()
   end,
 })
@@ -400,10 +399,56 @@ vim.keymap.del("n", "gri") -- Unmap builtin go to references mapping.
 vim.keymap.del("n", "gra") -- Unmap builtin go to references mapping.
 vim.keymap.del("n", "grn") -- Unmap builtin go to references mapping.
 
+
+
+vim.g.lsp_sticky_highlight = false
+local ns_id = vim.api.nvim_create_namespace("LspStickyHighlights")
+
+-- Define a list of highlight groups (customize as needed)
+local sticky_groups = {
+  "StickyHighlight1",
+  "StickyHighlight2",
+  "StickyHighlight3",
+  "StickyHighlight4",
+  "StickyHighlight5",
+}
+
+-- Optional: define custom colors for these groups
+for i, group in ipairs(sticky_groups) do
+  vim.api.nvim_set_hl(0, group, { bg = "#" .. string.format("%02x%02x%02x", 50*i, 20*i, 150), fg = "#ffffff" })
+end
+
+local sticky_index = 1
+
+local function add_sticky_highlight()
+  local params = vim.lsp.util.make_position_params()
+  vim.lsp.buf_request(0, "textDocument/documentHighlight", params, function(err, result)
+    if err or not result then return end
+    local hl_group = sticky_groups[sticky_index]
+    sticky_index = sticky_index % #sticky_groups + 1 -- cycle through groups
+    for _, hl in ipairs(result) do
+      local range = hl.range
+      vim.api.nvim_buf_add_highlight(0, ns_id, hl_group, range.start.line, range.start.character, range["end"].character)
+    end
+  end)
+end
+
+-- Enable sticky mode and add highlight
+vim.keymap.set("n", "gh", function()
+  vim.g.lsp_sticky_highlight = true
+  add_sticky_highlight()
+end, { desc = "LSP: Sticky Document Highlight" })
+
+-- Disable sticky mode and clear all highlights
+vim.keymap.set("n", "gH", function()
+  vim.g.lsp_sticky_highlight = false
+  vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
+  sticky_index = 1
+end, { desc = "LSP: Clear Sticky Highlights" })
+
+
+
 map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "LSP: References" })
-map("n", "gH", "<cmd>vim.lsp.buf.clear_references()<cr>", { desc = "LSP: Clear References/Highlights" })
-map("n", "gh", "<cmd>lua vim.lsp.buf.document_highlight() ; vim._HL = 1<cr>", { desc = "LSP: Document Highlight" })
--- map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "LSP: Definition" })
 map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { desc = "LSP: Implementation" })
 map("n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<cr>", { desc = "LSP: Type Definition" })
 map("n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "LSP: Code Action" })
